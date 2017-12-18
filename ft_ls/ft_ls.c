@@ -8,7 +8,7 @@ typedef struct	s_ls
 	char		*dir;
 }				t_ls;
 
-t_file		*ft_create_array_files_wa(char *path)
+t_file		*ft_create_array_files(char *path)
 {
 	int				nb;
 	t_file			*files;
