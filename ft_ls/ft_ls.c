@@ -141,6 +141,7 @@ void	do_ls(t_ls *ls)
 					do_ls(ls);
 				}
 			}
+			i++;
 		}
 	}
 }
