@@ -23,7 +23,8 @@ INCLUDE = $(shell find . -type f | grep "\.h")
 LIB = library_src/lib.a
 LIB += ft_ls/lib.a
 
-CFLAGS = -g -lpthread -lmlx -framework OpenGL -framework AppKit mlx/libmlxS.a $(LIB)
+CFLAGS2 = -g -lpthread -lmlx -framework OpenGL -framework AppKit mlx/libmlxS.a $(LIB)
+CFLAGS = -g -lpthread $(LIB)
 
 all: $(NAME)
 
