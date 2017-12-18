@@ -133,7 +133,7 @@ void	do_ls(t_ls *ls)
 	{
 		if (ls->cmd[0] == 0 && file[i].name[0] == '.')
 		{
-			continue ;
+		
 		}
 		else
 		{
