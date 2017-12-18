@@ -100,12 +100,11 @@ void	do_ls(t_ls *ls)
 	if (!dir)
 		return ;
 	closedir(dir);
-	printf("tteesstt\n");
 	nb = ft_files_count_files_wa(temp_dir);
 	file = ft_create_array_files_wa(temp_dir);
-	if (ls->cmd[2])
+	if (ls->cmd[2] == 1)
 		ft_printf("%s:\n", temp_dir);
-	if (ls->cmd[3])
+	if (ls->cmd[3] == 1)
 		do_reverse_file(file, nb);
 	while (i < nb)
 	{
@@ -172,6 +171,11 @@ void ft_ls(int argc, char **argv)
 
 	i = 0;
 	ls = (t_ls *)ft_malloc(sizeof(t_ls));
+	ls->cmd[0] = 0;
+	ls->cmd[4] = 0;
+	ls->cmd[3] = 0;
+	ls->cmd[2] = 0;
+	ls->cmd[1] = 0;
 	ls->dir = NULL;
 	if (argc == 1)
 		ls->dir = ft_strdup(".");
