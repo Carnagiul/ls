@@ -135,7 +135,7 @@ void	do_ls(t_ls *ls)
 		}
 		else
 		{
-			if (i != nb - 1)
+			if (i + 1 < nb)
 				ft_printf("%s\t", file[i].name);
 			else
 				ft_printf("%s\n", file[i].name);
