@@ -167,7 +167,7 @@ void ft_ls(int argc, char **argv)
 	t_ls	*ls;
 
 	ls = (t_ls *)ft_malloc(sizeof(t_ls));
-	ls->dit = NULL;
+	ls->dir = NULL;
 	if (argc == 1)
 		ls->dir = ft_strdup(".");
 	else
