@@ -163,13 +163,12 @@ void ft_ls(int argc, char **argv)
 	char	*temp;
 	int		i;
 	t_ls	*ls;
-	char	*dir;
 
 	ls = (t_ls *)ft_malloc(sizeof(t_ls));
 	if (argc > 1)
-		dir = argv[argc - 1];
+		ls->dir = ft_strdup(argv[argc - 1]);
 	else
-		dir = ft_strdup(".");
+		ls->dir = ft_strdup(".");
 	i = 0;
 	if (argc == 1)
 		do_ls(ls);
