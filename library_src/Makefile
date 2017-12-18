@@ -22,13 +22,14 @@ OBJ_2 = $(addprefix obj/, $(OBJ))
 
 INCLUDE = $(shell find ../ -type f | grep "\.h")
 
+CFLAGS2 = -Wall -Werror -Wextra
 obj/%.o: %.c $(INCLUDE)
 	@mkdir -p obj/
 	@gcc -o $@ -c $< $(CFLAGS)
 	@echo "\033[1A\033[K\033[38;5;92mcompiling $@\033[0m"
 
 $(NAME): $(OBJ_2)
-	@gcc -c -Wall -Werror -Wextra $(SRC) -I ../
+	@gcc -c $(SRC) -I ../
 	@ar rc $(NAME) $(OBJ)
 	@mv $(OBJ) obj/
 	@ranlib $(NAME)
