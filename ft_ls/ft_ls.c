@@ -173,7 +173,7 @@ void ft_ls(int argc, char **argv)
 		ls->dir = ft_strdup(".");
 	while (++i < argc - 1)
 	{
-		temp = argv[i];
+		temp = ft_strdup(argv[i]);
 		if (temp[0] == '-')
 			addCmd(temp, ls);
 		else if (ls->dir == NULL)
