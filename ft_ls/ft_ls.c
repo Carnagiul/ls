@@ -113,7 +113,7 @@ int		ls_is_last(t_ls *ls, int nb, t_file *file, int id)
 {
 	if (id < nb && ls->cmd[0] == 1)
 		return (0);
-	while (id + 1 < nb)
+	while (id < nb)
 	{
 		if (file[id].name[0] == '.')
 			id++;
@@ -151,7 +151,7 @@ void	do_ls(t_ls *ls)
 		}
 		else
 		{
-			if (ls_is_last(ls, nb, file, i) == 0)
+			if (ls_is_last(ls, nb, file, i + 1) == 0)
 				ft_printf("%s\t", file[i].name);
 			else
 				ft_printf("%s\n", file[i].name);
