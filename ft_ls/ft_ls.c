@@ -127,13 +127,11 @@ void	do_ls(t_ls *ls)
 	if (ls->cmd[3] == 1)
 		do_reverse_file(file, nb);
 	i = 0;
-	ft_printf("DIR == %s FILES == %d\n", temp_dir, nb);
-
 	while (i < nb)
 	{
 		if (ls->cmd[0] == 0 && file[i].name[0] == '.')
 		{
-		
+
 		}
 		else
 		{
@@ -218,6 +216,5 @@ void ft_ls(int argc, char **argv)
 			ls->dir = ft_strdup(argv[i]);
 		free(temp);
 	}
-	ft_printf("test : %s\n", ls->dir);
 	do_ls(ls);
 }
