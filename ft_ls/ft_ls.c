@@ -259,5 +259,7 @@ void ft_ls(int argc, char **argv)
 			ls->dir = ft_strdup(argv[i]);
 		free(temp);
 	}
+	if (ls->dir == NULL)
+		ls->dir = ft_strdup(".");
 	do_ls(ls);
 }
