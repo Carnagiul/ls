@@ -109,6 +109,17 @@ t_file 	*do_reverse_file(t_file *file, int count)
 	return (file);
 }
 
+int		ls_is_last(t_ls *ls, int nb, t_file *file, int id)
+{
+	while (id < nb)
+	{
+		if (!(ls->cmd[0] == 0 && file[i].name[0] == '.'))
+			return (0);
+		id++;
+	}
+	return (1);
+}
+
 void	do_ls(t_ls *ls)
 {
 	int		nb;
@@ -137,7 +148,7 @@ void	do_ls(t_ls *ls)
 		}
 		else
 		{
-			if (i + 1 < nb)
+			if (ls_is_last(ls, nb, file, i) == 0)
 				ft_printf("%s\t", file[i].name);
 			else
 				ft_printf("%s\n", file[i].name);
