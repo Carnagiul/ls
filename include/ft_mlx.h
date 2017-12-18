@@ -48,15 +48,8 @@ t_win			*ft_mlx_extended_gen_win(int width, int height, char *name);
 int				*ft_mlx_get_size(char *argv, int *d);
 int				*ft_mlx_extended_parser(int argc, char **argv);
 
-void			display_menu(t_fractol *fractol);
-
 t_color_mlx		create_color(int red, int green, int blue);
-void			ft_sphere(t_fractol *fractol, t_point pt, int r);
 t_color_mlx		create_color(int red, int green, int blue);
-
-void			ft_pixel_put(t_fractol *fractol, t_point pt);
-void			ft_pixel_put3(t_fractol *fractol, t_point pt,
-		t_color_mlx color);
 
 t_texture		*ft_mlx_load_texture(char *file, t_win *win);
 
