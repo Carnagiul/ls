@@ -111,11 +111,14 @@ t_file 	*do_reverse_file(t_file *file, int count)
 
 int		ls_is_last(t_ls *ls, int nb, t_file *file, int id)
 {
+	if (id < nb && ls->cmd[0] == 1)
+		return (0);
 	while (id < nb)
 	{
-		if (file[id].name[0] == '.' && ls->cmd[0] == 1)
+		if (file[id].name[0] == '.')
+			id++;
+		else
 			return (0);
-		id++;
 	}
 	return (1);
 }
