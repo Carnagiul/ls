@@ -113,7 +113,7 @@ int		ls_is_last(t_ls *ls, int nb, t_file *file, int id)
 {
 	while (id < nb)
 	{
-		if (!(ls->cmd[0] == 0 && file[i].name[0] == '.'))
+		if (!(ls->cmd[0] == 0 && file[id].name[0] == '.'))
 			return (0);
 		id++;
 	}
