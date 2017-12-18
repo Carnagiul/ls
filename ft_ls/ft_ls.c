@@ -100,6 +100,7 @@ void	do_ls(t_ls *ls)
 	if (!dir)
 		return ;
 	closedir(dir);
+	printf("tteesstt\n");
 	nb = ft_files_count_files_wa(temp_dir);
 	file = ft_create_array_files_wa(temp_dir);
 	if (ls->cmd[2])
