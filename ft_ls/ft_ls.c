@@ -191,25 +191,25 @@ void	do_ls(t_ls *ls)
 				ft_strcmp(file[i].name, ".") != 0 &&
 				ft_strcmp(file[i].name, "..") != 0)
 			{
+				if (ls->dir[ft_strlen(ls->dir) - 1] != '/')
+						ls->dir = ft_free_join1(ls->dir, "/");
 				if (ls->cmd[0] == 0 && file[i].name[0] != '.')
 				{
-					if (ls->dir[ft_strlen(ls->dir) - 1] != '/')
-						ls->dir = ft_free_join1(ls->dir, "/");
 					ls->dir = ft_free_join1(ls->dir, file[i].name);
 					ft_printf("\n");
 					do_ls(ls);
+					free(ls->dir);
+					ls->dir = ft_strdup(temp_dir);
 				}	
 				if (ls->cmd[1] == 1) 
 				{
-					if (ls->dir[ft_strlen(ls->dir) - 1] != '/')
-						ls->dir = ft_free_join1(ls->dir, "/");
 					ls->dir = ft_free_join1(ls->dir, file[i].name);
 					ft_printf("\n");
 					do_ls(ls);
+					free(ls->dir);
+					ls->dir = ft_strdup(temp_dir);
 				}
 			}
-			free(ls->dir);
-			ls->dir = ft_strdup(temp_dir);
 			i++;
 		}
 	}
