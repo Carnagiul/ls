@@ -98,7 +98,7 @@ void	do_ls(t_ls *ls)
 	temp_dir = ls->dir;
 	dir = opendir(temp_dir);
 	if (!dir)
-		return (0);
+		return ;
 	closedir(dir);
 	nb = ft_files_count_files_wa(temp_dir);
 	file = ft_create_array_files_wa(temp_dir);
