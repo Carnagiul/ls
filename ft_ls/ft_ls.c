@@ -100,21 +100,29 @@ void	do_ls(t_ls *ls)
 	if (!dir)
 		return ;
 	closedir(dir);
-	nb = ft_files_count_files_wa(temp_dir);
-	file = ft_create_array_files_wa(temp_dir);
+	nb = ft_files_count_files(temp_dir);
+	file = ft_create_array_files(temp_dir);
 	if (ls->cmd[2] == 1)
 		ft_printf("%s:\n", temp_dir);
 	if (ls->cmd[3] == 1)
 		do_reverse_file(file, nb);
 	i = 0;
+	ft_printf("DIR == %s FILES == %d\n", temp_dir, nb);
+
 	while (i < nb)
 	{
+		ft_printf("i == %d\n", i);
 		if (ls->cmd[0] == 0 && file[i].name[0] == '.')
-			continue ;
-		if (i != nb - 1)
-			ft_printf("%s\t", file[i].name);
+		{
+
+		}
 		else
-			ft_printf("%s\n", file[i].name);
+		{
+			if (i != nb - 1)
+				ft_printf("%s\t", file[i].name);
+			else
+				ft_printf("%s\n", file[i].name);
+		}
 		i++;
 	}
 	if (ls->cmd[2] == 1)
