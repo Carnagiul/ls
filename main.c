@@ -14,7 +14,6 @@
 
 int	main(int argc, char **argv)
 {
-	ft_wolf_init(argc, argv);
+	ft_ls(argc, argv);
 	return (1);
-	(void)argc;
 }

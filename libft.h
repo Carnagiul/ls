@@ -24,7 +24,7 @@
 # include <dirent.h>
 # include <time.h>
 # include "include/ft_files.h"
-# include "include/ft_music.h"
+# include "include/ft_ls.h"
 # include "include/ft_math.h"
 # include "include/mlx.h"
 # include "include/ft_gnl.h"
@@ -36,8 +36,6 @@
 # include "include/ft_string.h"
 # include "include/ft_printf.h"
 # include "include/ft_wstr.h"
-# include "include/ft_fdf.h"
 # include "include/ft_mlx.h"
-# include "include/ft_entity.h"
 
 #endif

@@ -21,7 +21,7 @@ OBJ_2 = ./obj/main.o
 INCLUDE = $(shell find . -type f | grep "\.h")
 
 LIB = library_src/lib.a
-LIB += ft_fdf/lib.a
+LIB += ft_ls/lib.a
 
 CFLAGS = -g -lpthread -lmlx -framework OpenGL -framework AppKit mlx/libmlxS.a $(LIB)
 
