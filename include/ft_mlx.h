@@ -58,8 +58,6 @@ int				*ft_mlx_extended_parser(int argc, char **argv);
 t_color_mlx		create_color(int red, int green, int blue);
 t_color_mlx		create_color(int red, int green, int blue);
 
-t_texture		*ft_mlx_load_texture(char *file, t_win *win);
-
 void			free_t_img(t_img *img, t_win *win);
 void			free_t_win(t_win *win);
 #endif
