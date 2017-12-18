@@ -95,6 +95,8 @@ void	do_ls(t_ls *ls)
 	t_file	*file;
 
 	temp_dir = ls->dir;
+	if (opendir(temp_dir) == 0)
+		return ;
 	nb = ft_files_count_files_wa(temp_dir);
 	file = ft_create_array_files_wa(temp_dir);
 	if (ls->cmd[2])
@@ -165,10 +167,10 @@ void ft_ls(int argc, char **argv)
 	t_ls	*ls;
 
 	ls = (t_ls *)ft_malloc(sizeof(t_ls));
-	if (argc > 1)
-		ls->dir = ft_strdup(argv[argc - 1]);
-	else
+	ls->dit = NULL;
+	if (argc == 1)
 		ls->dir = ft_strdup(".");
+	else
 	i = 0;
 	if (argc == 1)
 		do_ls(ls);
@@ -177,6 +179,8 @@ void ft_ls(int argc, char **argv)
 		temp = argv[i];
 		if (temp[0] == '-')
 			addCmd(temp, ls);
+		else if (ls->dir == NULL)
+			ls->dir = ft_strdup(argv[i]);
 		free(temp);
 	}
 	do_ls(ls);
