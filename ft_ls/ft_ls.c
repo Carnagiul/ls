@@ -171,7 +171,7 @@ void ft_ls(int argc, char **argv)
 	ls->dir = NULL;
 	if (argc == 1)
 		ls->dir = ft_strdup(".");
-	while (++i < argc - 1)
+	while (++i < argc)
 	{
 		temp = ft_strdup(argv[i]);
 		if (temp[0] == '-')
