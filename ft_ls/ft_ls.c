@@ -106,6 +106,7 @@ void	do_ls(t_ls *ls)
 		ft_printf("%s:\n", temp_dir);
 	if (ls->cmd[3] == 1)
 		do_reverse_file(file, nb);
+	i = 0;
 	while (i < nb)
 	{
 		if (ls->cmd[0] == 0 && file[i].name[0] == '.')
