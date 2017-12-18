@@ -115,6 +115,7 @@ void	do_ls(t_ls *ls)
 			ft_printf("%s\t", file[i].name);
 		else
 			ft_printf("%s\n", file[i].name);
+		i++;
 	}
 	if (ls->cmd[2] == 1)
 	{
