@@ -8,6 +8,26 @@ typedef struct	s_ls
 	char		*dir;
 }				t_ls;
 
+
+int		ft_files_count(char *path)
+{
+	struct dirent	*files;
+	int				count;
+	DIR				*dir;
+
+	count = 0;
+	dir = opendir(path);
+	if (!dir)
+		return (0);
+	while ((files = readdir(dir)) != NULL)
+	{
+		count++;
+	}
+	free(files);
+	closedir(dir);
+	return (count);
+}
+
 t_file		*ft_create_array_files(char *path)
 {
 	int				nb;
@@ -16,7 +36,7 @@ t_file		*ft_create_array_files(char *path)
 	DIR				*dir;
 	int				i;
 
-	nb = ft_files_count_files(path);
+	nb = ft_files_count(path);
 	files = (t_file *)ft_malloc(sizeof(t_file) * nb);
 	i = 0;
 	dir = opendir(path);
@@ -100,7 +120,7 @@ void	do_ls(t_ls *ls)
 	if (!dir)
 		return ;
 	closedir(dir);
-	nb = ft_files_count_files(temp_dir);
+	nb = ft_files_count(temp_dir);
 	file = ft_create_array_files(temp_dir);
 	if (ls->cmd[2] == 1)
 		ft_printf("%s:\n", temp_dir);
