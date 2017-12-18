@@ -58,7 +58,7 @@ void	do_lstat_2(t_file *file, int id)
 	file[id + 1] = tmp;
 }
 
-void	do_lstat(t_file *file, char *path, int count, t_ls *ls)
+t_file		*do_lstat(t_file *file, char *path, int count, t_ls *ls)
 {
 	int	bl;
 	int blbl;
@@ -89,9 +89,10 @@ void	do_lstat(t_file *file, char *path, int count, t_ls *ls)
 			}
 		}
 	}
+	return (file);
 }
 
-void	do_reverse_file(t_file *file, int count)
+t_file 	*do_reverse_file(t_file *file, int count)
 {
 	int	i;
 	t_file temp;
@@ -105,6 +106,7 @@ void	do_reverse_file(t_file *file, int count)
 		file[count] = temp;
 		i++;
 	}
+	return (file);
 }
 
 void	do_ls(t_ls *ls)
@@ -125,7 +127,7 @@ void	do_ls(t_ls *ls)
 	if (ls->cmd[2] == 1)
 		ft_printf("%s:\n", temp_dir);
 	if (ls->cmd[3] == 1)
-		do_reverse_file(file, nb);
+		file = do_reverse_file(file, nb);
 	i = 0;
 	while (i < nb)
 	{
