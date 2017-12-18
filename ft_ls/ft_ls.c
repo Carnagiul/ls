@@ -156,7 +156,7 @@ void	do_ls(t_ls *ls)
 	t_file	*file;
 	DIR				*dir;
 
-	temp_dir = ls->dir;
+	temp_dir = ft_strdup(ls->dir);
 	dir = opendir(temp_dir);
 	if (!dir)
 		return ;
