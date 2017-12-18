@@ -35,6 +35,13 @@ typedef struct	s_win
 	char		*name;
 }				t_win;
 
+typedef struct				s_color_mlx
+{
+	int						red;
+	int						green;
+	int						blue;
+}							t_color_mlx;
+
 typedef struct	s_keycode_mlx
 {
 	int			keycode;
