@@ -16,7 +16,7 @@ t_file		*ft_create_array_files(char *path)
 	DIR				*dir;
 	int				i;
 
-	nb = ft_files_count_files_wa(path);
+	nb = ft_files_count_files(path);
 	files = (t_file *)ft_malloc(sizeof(t_file) * nb);
 	i = 0;
 	dir = opendir(path);
