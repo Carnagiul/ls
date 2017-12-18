@@ -163,6 +163,7 @@ void ft_ls(int argc, char **argv)
 	char	*temp;
 	int		i;
 	t_ls	*ls;
+	char	*dir;
 
 	ls = (t_ls *)ft_malloc(sizeof(t_ls));
 	if (argc > 1)
