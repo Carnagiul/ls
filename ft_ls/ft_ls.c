@@ -93,10 +93,13 @@ void	do_ls(t_ls *ls)
 	char	*temp_dir;
 	int		i;
 	t_file	*file;
+	DIR				*dir;
 
 	temp_dir = ls->dir;
-	if (opendir(temp_dir) == 0)
-		return ;
+	dir = opendir(temp_dir);
+	if (!dir)
+		return (0);
+	closedir(dir);
 	nb = ft_files_count_files_wa(temp_dir);
 	file = ft_create_array_files_wa(temp_dir);
 	if (ls->cmd[2])
