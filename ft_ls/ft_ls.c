@@ -154,17 +154,14 @@ void	do_ls(t_ls *ls)
 	char	*temp_dir;
 	int		i;
 	t_file	*file;
-	DIR				*dir;
 
 	temp_dir = ft_strdup(ls->dir);
-	dir = opendir(temp_dir);
-	if (!dir)
-		return ;
-	closedir(dir);
 	nb = ft_files_count(temp_dir);
+	if (nb == 0)
+		return ;
 	file = ft_create_array_files(temp_dir);
+	if (nb )
 	file = trier_tableau(file, nb);
-
 	if (ls->cmd[2] == 1)
 		ft_printf("%s:\n", temp_dir);
 	if (ls->cmd[3] == 1)
@@ -212,7 +209,7 @@ void	do_ls(t_ls *ls)
 				}
 			}
 			free(ls->dir);
-			ls->dir = temp_dir;
+			ls->dir = ft_strdup(temp_dir);
 			i++;
 		}
 	}
