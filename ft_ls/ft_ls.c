@@ -101,8 +101,8 @@ t_file 	*do_reverse_file(t_file *file, int count)
 	while (i < count)
 	{
 		--count;
-		temp = file[0];
-		file[0] = file[count];
+		temp = file[i];
+		file[i] = file[count];
 		file[count] = temp;
 		i++;
 	}
@@ -123,6 +123,31 @@ int		ls_is_last(t_ls *ls, int nb, t_file *file, int id)
 	return (1);
 }
 
+t_file 	*trier_tableau(t_file *file, int count)
+{
+	int	i;
+	t_file temp;
+	int	ii;
+
+	ii = 0;
+	while (ii < count)
+	{
+		i = 0;
+		while (i + 1 < count)
+		{
+			if (ft_strcmp(file[i].name, file[i + 1].name) > 0)
+			{
+				temp = file[i];
+				file[i] = file[i + 1];
+				file[i + 1] = temp;
+			}
+			i++;
+		}
+		ii++;
+	}
+	return (file);
+}
+
 void	do_ls(t_ls *ls)
 {
 	int		nb;
@@ -138,6 +163,8 @@ void	do_ls(t_ls *ls)
 	closedir(dir);
 	nb = ft_files_count(temp_dir);
 	file = ft_create_array_files(temp_dir);
+	file = trier_tableau(file, nb);
+
 	if (ls->cmd[2] == 1)
 		ft_printf("%s:\n", temp_dir);
 	if (ls->cmd[3] == 1)
