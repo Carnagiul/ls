@@ -6,51 +6,43 @@
 #    By: piquerue <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/02 14:20:07 by piquerue          #+#    #+#              #
-#    Updated: 2017/10/10 18:18:02 by piquerue         ###   ########.fr        #
+#    Updated: 2017/08/22 19:52:51 by piquerue         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = wolf3d
+NAME = lib.a
 
-SRC = ./main.c
+VALUE = delimiteur
 
-OBJ = ./main.o
+SRC = $(shell find . -type f | grep "\.c")
 
-OBJ_2 = ./obj/main.o
+OBJ= $(SRC:.c=.o)
 
-INCLUDE = $(shell find . -type f | grep "\.h")
+OBJ_2 = $(addprefix obj/, $(OBJ))
 
-LIB = library_src/lib.a
-LIB += ft_ls/lib.a
+INCLUDE = $(shell find ../ -type f | grep "\.h")
 
-CFLAGS = -g -lpthread -lmlx -framework OpenGL -framework AppKit mlx/libmlxS.a $(LIB)
-
-all: $(NAME)
-
-.PHONY : all clean fclean re lib
+CFLAGS2 = -Wall -Werror -Wextra
 
 obj/%.o: %.c $(INCLUDE)
 	@mkdir -p obj/
-	gcc -o $@ -c $<  -Wall -Wextra -Werror
+	@gcc -o $@ -c $< $(CFLAGS)
+	@echo "\033[1A\033[K\033[38;5;92mcompiling $@\033[0m"
 
-lib: $(INCLUDE)
-	@make -C library_src
-	@make -C ft_ls
+$(NAME): $(OBJ_2)
+	@gcc -c $(SRC) -I ../
+	@ar rc $(NAME) $(OBJ)
+	@mv $(OBJ) obj/
+	@ranlib $(NAME)
+	@echo "\033[38;5;154mcompiling $(NAME) done\033[0m\n"
 
-$(NAME): lib $(OBJ_2)
-	@gcc -c $(SRC) -Wall -Werror -Wextra
-	@gcc -o $(NAME) $(OBJ) $(CFLAGS) -Wall -Wextra -Werror
-	@mv -f $(OBJ) obj/
+all: $(NAME)
 
 clean:
-	@make -C library_src clean
-	@make -C ft_ls clean
-	@rm -rf $(OBJ_2)
+	@rm -f $(OBJ_2)
 fclean: clean
-	@make -C library_src fclean
-	@make -C ft_ls fclean
 	@rm -f $(NAME)
 
 re: fclean all
-	@make -C library_src re
-	@make -C ft_ls re
+
+.PHONY : all clean fclean re
