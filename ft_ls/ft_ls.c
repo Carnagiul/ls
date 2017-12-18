@@ -180,5 +180,6 @@ void ft_ls(int argc, char **argv)
 			ls->dir = ft_strdup(argv[i]);
 		free(temp);
 	}
+	ft_printf("test : %s\n", ls->dir);
 	do_ls(ls);
 }
