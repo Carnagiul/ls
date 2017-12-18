@@ -201,7 +201,7 @@ void	do_ls(t_ls *ls)
 					free(ls->dir);
 					ls->dir = ft_strdup(temp_dir);
 				}	
-				if (ls->cmd[1] == 1) 
+				if (ls->cmd[0] == 1) 
 				{
 					ls->dir = ft_free_join1(ls->dir, file[i].name);
 					ft_printf("\n");
