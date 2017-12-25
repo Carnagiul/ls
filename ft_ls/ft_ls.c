@@ -8,6 +8,12 @@ typedef struct	s_ls
 	char		*dir;
 }				t_ls;
 
+typedef struct	s_file_opt
+{
+	char		*name;
+	int			type;
+	struct stat	stat;
+}				t_file_opt;
 
 int		ft_files_count(char *path)
 {
