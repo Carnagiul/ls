@@ -17,7 +17,7 @@ typedef struct			s_file_opt
 
 typedef struct			s_file_ls
 {
-	struct s_file_opt	*data;
+	struct s_file_opt	*files;
 	int					max;
 }						t_file_ls;
 
@@ -38,6 +38,16 @@ int		ft_files_count(char *path)
 	free(files);
 	closedir(dir);
 	return (count);
+}
+
+t_file_ls	ft_create_file_ls(char *path, t_ls *ls)
+{
+	t_file_ls	content;
+
+	content.files = ft_malloc(sizeof(t_file_opt) * ft_files_count(path));
+	content.max = 0;
+	return (content);
+	
 }
 
 t_file		*ft_create_array_files(char *path)
