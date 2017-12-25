@@ -1,10 +1,10 @@
 #include "../libft.h"
-#include <sys/types.h> 
-#include <sys/stat.h> 
+#include <sys/types.h>
+#include <sys/stat.h>
 
 typedef struct	s_ls
 {
-	int			cmd[5];
+	int			cmd[6];
 	char		*dir;
 }				t_ls;
 
@@ -123,7 +123,7 @@ int		ls_is_last(t_ls *ls, int nb, t_file *file, int id)
 	return (1);
 }
 
-t_file 	*trier_tableau(t_file *file, int count)
+t_file	*trier_tableau(t_file *file, int count)
 {
 	int	i;
 	t_file temp;
@@ -148,25 +148,53 @@ t_file 	*trier_tableau(t_file *file, int count)
 	return (file);
 }
 
+int		ft_filename_len(int count, t_file *file)
+{
+	int i;
+	int	len;
+
+	len = 0;
+	i = -1;
+	while (++i < count)
+		len = (len < ft_strlen(file[i].name)) ? ft_strlen(file[i].name) : len;
+	while (len % 4 != 0)
+		len++;
+	return (len);
+}
+
+t_file		*do_ls_first(t_ls *ls)
+{
+	t_file	*file;
+	int		nb;
+
+	nb = ft_files_count(ls->dir);
+	if (nb == 0)
+		return (NULL);
+	file = ft_create_array_files(ls->dir);
+	if (nb && file)
+		file = trier_tableau(file, nb);
+	if (ls->cmd[2] == 1)
+		ft_printf("%s:\n", ls->dir);
+	if (ls->cmd[3] == 1)
+		file = do_reverse_file(file, nb);
+	return (file);
+}
+
 void	do_ls(t_ls *ls)
 {
 	int		nb;
 	char	*temp_dir;
 	int		i;
 	t_file	*file;
+	int		maxlen;
 
 	temp_dir = ft_strdup(ls->dir);
 	nb = ft_files_count(temp_dir);
-	if (nb == 0)
-		return ;
-	file = ft_create_array_files(temp_dir);
-	if (nb )
-	file = trier_tableau(file, nb);
-	if (ls->cmd[2] == 1)
-		ft_printf("%s:\n", temp_dir);
-	if (ls->cmd[3] == 1)
-		file = do_reverse_file(file, nb);
+	file = do_ls_first(ls);
 	i = 0;
+	if (nb == 0 || file == NULL)
+		return ;
+	maxlen = ft_filename_len(nb, file);
 	while (i < nb)
 	{
 		if (ls->cmd[0] == 0 && file[i].name[0] == '.')
@@ -176,7 +204,16 @@ void	do_ls(t_ls *ls)
 		else
 		{
 			if (ls_is_last(ls, nb, file, i + 1) == 0)
-				ft_printf("%s\t", file[i].name);
+			{
+				ft_printf("%s", file[i].name);
+				if (ls->cmd[5] == 1)
+				{
+					for (int r = ft_strlen(file[i].name); r < maxlen; r++)
+						ft_printf(" ");
+				}
+				else
+					ft_printf("\t");
+			}
 			else
 				ft_printf("%s\n", file[i].name);
 		}
@@ -200,8 +237,8 @@ void	do_ls(t_ls *ls)
 					do_ls(ls);
 					free(ls->dir);
 					ls->dir = ft_strdup(temp_dir);
-				}	
-				if (ls->cmd[0] == 1) 
+				}
+				if (ls->cmd[0] == 1)
 				{
 					ls->dir = ft_free_join1(ls->dir, file[i].name);
 					ft_printf("\n");
@@ -232,6 +269,8 @@ void	addCmd(char *cmd, t_ls *ls)
 			ls->cmd[3] = 1;
 		if (cmd[i] == 't')
 			ls->cmd[4] = 1;
+		if (cmd[i] == 'C' || cmd[i] == 'l')
+			ls->cmd[5] = 1;
 	}
 }
 
@@ -244,6 +283,7 @@ void ft_ls(int argc, char **argv)
 	i = 0;
 	ls = (t_ls *)ft_malloc(sizeof(t_ls));
 	ls->cmd[0] = 0;
+	ls->cmd[5] = 0;
 	ls->cmd[4] = 0;
 	ls->cmd[3] = 0;
 	ls->cmd[2] = 0;
@@ -254,6 +294,10 @@ void ft_ls(int argc, char **argv)
 	while (++i < argc)
 	{
 		temp = ft_strdup(argv[i]);
+		if (ft_strcmp(temp, "--version") == 0)
+			exit(ft_printf("Version : @G%s@@\n", VERSION));
+		if (ft_strcmp(temp, "--usage") == 0)
+			exit(ft_printf("Usage : \n@R%s@@ %s\n", argv[0], USAGE));
 		if (temp[0] == '-')
 			addCmd(temp, ls);
 		else if (ls->dir == NULL)
