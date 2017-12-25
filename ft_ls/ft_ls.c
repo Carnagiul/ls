@@ -40,14 +40,106 @@ int		ft_files_count(char *path)
 	return (count);
 }
 
+int				is_rotated_file(t_file_ls content, t_ls *ls)
+{
+	int			i;
+
+	i = 0;
+	while (i < content.max)
+	{
+		if (i + 1 < content.max)
+		{
+			if (ls->cmd[4])
+			{
+				if (ls->cmd[3])
+					if (content.files[i].stat.st_atime > content.files[i + 1].stat.st_atime)
+						return (1);
+				else
+					if (content.files[i].stat.st_atime < content.files[i + 1].stat.st_atime)
+						return (1);
+			}
+			else
+			{
+				if (ls->cmd[3])
+					if (ft_strcmp(content.file[i].name. content.file[i + 1].name) > 0)
+						return (1);
+				else
+					if (ft_strcmp(content.file[i].name. content.file[i + 1].name) < 0)
+						return (1);
+			}
+		}
+	}
+	return (0);
+}
+
+t_file_ls	rotate_file(t_file_ls content, t_ls *ls)
+{
+	int		j;
+	int		k;
+	t_file_opt	temp;
+
+	j = 0;
+	if (is_rotated_file(content,ls) == 0)
+		return (content);
+	while (j++ < content.max)
+	{
+		k = 0;
+		while (k++ < content.max)
+		{
+			if (ls->cmd[4])
+			{
+				if (ls->cmd[3])
+				{
+					if (content.files[i].stat.st_atime > content.files[i + 1].stat.st_atime)
+					{
+						temp = content.file[i];
+						content.file[i] = content.file[i + 1];
+						content.file[i + 1];
+					}
+				}
+				else
+				{
+					if (content.files[i].stat.st_atime < content.files[i + 1].stat.st_atime)
+					{
+						temp = content.file[i];
+						content.file[i] = content.file[i + 1];
+						content.file[i + 1];
+					}
+				}
+			}
+			else
+			{
+				if (ls->cmd[3])
+				{
+					if (ft_strcmp(content.file[i].name. content.file[i + 1].name) > 0)
+					{
+						temp = content.file[i];
+						content.file[i] = content.file[i + 1];
+						content.file[i + 1];
+					}
+				}
+				else
+				{
+					if (ft_strcmp(content.file[i].name. content.file[i + 1].name) < 0)
+					{
+						temp = content.file[i];
+						content.file[i] = content.file[i + 1];
+						content.file[i + 1];
+					}
+				}
+			}//TODO KAPPA
+		}
+	}
+}
+
 t_file_ls	ft_create_file_ls(char *path, t_ls *ls)
 {
 	t_file_ls	content;
 
 	content.files = ft_malloc(sizeof(t_file_opt) * ft_files_count(path));
 	content.max = 0;
+	if ()
 	return (content);
-	
 }
 
 t_file		*ft_create_array_files(char *path)
