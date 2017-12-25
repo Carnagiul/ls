@@ -2,18 +2,24 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-typedef struct	s_ls
+typedef struct			s_ls
 {
-	int			cmd[6];
-	char		*dir;
-}				t_ls;
+	int					cmd[6];
+	char				*dir;
+}						t_ls;
 
-typedef struct	s_file_opt
+typedef struct			s_file_opt
 {
-	char		*name;
-	int			type;
-	struct stat	stat;
-}				t_file_opt;
+	char				*name;
+	int					type;
+	struct stat			stat;
+}						t_file_opt;
+
+typedef struct			s_file_ls
+{
+	struct s_file_opt	*data;
+	int					max;
+}						t_file_ls;
 
 int		ft_files_count(char *path)
 {
