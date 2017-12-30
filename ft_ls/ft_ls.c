@@ -94,7 +94,7 @@ int				is_sorted_file(t_file_opt file, t_file_opt filee, t_ls *ls)
 	}
 	else
 	{
-		if (ls->cmd[3])
+		if (ls->cmd[3] == 0)
 		{
 			if (ft_strcmp(file.name, filee.name) > 0)
 				return (1);
