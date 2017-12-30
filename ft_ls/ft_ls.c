@@ -81,39 +81,36 @@ int				is_rotated_file(t_file_ls content, t_ls *ls)
 {
 	int			i;
 
-	i = -1;
-	while (++i < content.max)
+	i = content.max - 2;
+	if (content.max < 2)
+		return (1);
+	if (ls->cmd[4])
 	{
-		if (i + 1 < content.max)
+		if (ls->cmd[3])
 		{
-			if (ls->cmd[4])
-			{
-				if (ls->cmd[3])
-				{
-					if (content.files[i].stat.st_atime > content.files[i + 1].stat.st_atime)
-						return (1);
-				}
-				else
-				{
-					if (content.files[i].stat.st_atime < content.files[i + 1].stat.st_atime)
-						return (1);
-				}
-			}
-			else
-			{
-				if (ls->cmd[3])
-				{
-					if (ft_strcmp(content.files[i].name, content.files[i + 1].name) > 0)
-						return (1);
-				}
-				else
-				{
-					if (ft_strcmp(content.files[i].name, content.files[i + 1].name) < 0)
-						return (1);
-				}
-			}
+			if (content.files[i].stat.st_atime > content.files[i + 1].stat.st_atime)
+				return (1);
+		}
+		else
+		{
+			if (content.files[i].stat.st_atime < content.files[i + 1].stat.st_atime)
+				return (1);
 		}
 	}
+	else
+	{
+		if (ls->cmd[3])
+		{
+			if (ft_strcmp(content.files[i].name, content.files[i + 1].name) > 0)
+				return (1);
+		}
+		else
+		{
+			if (ft_strcmp(content.files[i].name, content.files[i + 1].name) < 0)
+				return (1);
+		}
+	}
+	
 	return (0);
 }
 
@@ -272,12 +269,18 @@ char				*ft_display_file_chmod(struct stat stat)
 	ret[0] = (stat.st_mode & S_IRUSR) ? 'r' : '-';
 	ret[1] = (stat.st_mode & S_IWUSR) ? 'w' : '-';
 	ret[2] = (stat.st_mode & S_IXUSR) ? 'x' : '-';
+	if (stat.st_mode & S_ISUID)
+		ret[2] = (stat.st_mode & S_IXUSR) ? 's' : 'S';
 	ret[3] = (stat.st_mode & S_IRGRP) ? 'r' : '-';
 	ret[4] = (stat.st_mode & S_IWGRP) ? 'w' : '-';
 	ret[5] = (stat.st_mode & S_IXGRP) ? 'x' : '-';
+	if (stat.st_mode & S_ISGID)
+		ret[5] = (stat.st_mode & S_IXGRP) ? 's' : 'S';
 	ret[6] = (stat.st_mode & S_IROTH) ? 'r' : '-';
 	ret[7] = (stat.st_mode & S_IWOTH) ? 'w' : '-';
 	ret[8] = (stat.st_mode & S_IXOTH) ? 'x' : '-';
+	if (stat.st_mode & S_ISVTX)
+		ret[8] = (stat.st_mode & S_IXOTH) ? 't' : 'T';
 	ret[9] = '\0';
 	return (ret);
 }
@@ -317,7 +320,7 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
     printf("Dernière modification du fichier:  %s", ctime(&content.stat.st_mtime));
 	*/
 
-		//ft_printf("\n");
+		//
 	}
 
 }
