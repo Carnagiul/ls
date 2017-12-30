@@ -356,7 +356,7 @@ void				ft_ls_display(t_ls *ls, int id, t_file_ls content, char *path)
 		}
 	}
 }
-/*
+
 int					ft_count_stack(t_file_ls content)
 {
 	int				i;
@@ -371,7 +371,7 @@ int					ft_count_stack(t_file_ls content)
 	}
 	return (c);
 }
-*/
+
 void				ft_create_file_ls(char *path, t_ls *ls, int id)
 {
 	t_file_ls		content;
