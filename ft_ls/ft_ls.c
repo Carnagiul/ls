@@ -4,7 +4,6 @@
 #include <pwd.h>
 #include <grp.h>
 
-
 typedef struct			s_ls
 {
 	int					cmd[9];
@@ -357,7 +356,7 @@ void				ft_ls_display(t_ls *ls, int id, t_file_ls content, char *path)
 		}
 	}
 }
-
+/*
 int					ft_count_stack(t_file_ls content)
 {
 	int				i;
@@ -605,7 +604,7 @@ void	do_ls(t_ls *ls)
 		}
 	}
 }
-
+*/
 void	addCmd(char *cmd, t_ls *ls)
 {
 	int		i;
