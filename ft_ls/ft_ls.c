@@ -81,7 +81,7 @@ int				is_sorted_file(t_file_opt file, t_file_opt filee, t_ls *ls)
 {
 	if (ls->cmd[4])
 	{
-		if (ls->cmd[3] == 0)
+		if (ls->cmd[3])
 		{
 			if (file.stat.st_mtime > filee.stat.st_mtime)
 				return (1);
