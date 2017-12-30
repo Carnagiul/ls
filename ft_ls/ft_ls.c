@@ -408,6 +408,8 @@ void ft_ls(int argc, char **argv)
 
 	i = 0;
 	ls = (t_ls *)ft_malloc(sizeof(t_ls));
+	ls->len_group = 0;
+	ls->len_user = 0;
 	ls->cmd[0] = 0;
 	ls->cmd[6] = 0;
 	ls->cmd[7] = 0;
