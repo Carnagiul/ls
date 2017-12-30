@@ -345,7 +345,7 @@ void				ft_ls_display(t_ls *ls, int id, t_file_ls content, char *path)
 			ft_display_ls_file(ls, content.files[ok]);
 			if (ok + 1 >= content.max)
 				ft_printf("\n");
-			else
+			else if (ls->cmd[1] == 0)
 				ft_printf(" ");
 		}
 	}
