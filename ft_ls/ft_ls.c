@@ -83,7 +83,7 @@ int				is_sorted_file(t_file_opt file, t_file_opt filee, t_ls *ls)
 	{
 		if (file.stat.st_mtime == filee.stat.st_mtime)
 		{
-			if ((ls->cmd[3]) ? file.stat.st_mtimespec.tv_nsec > filee.st_mtimespec.tv_nsec : file.stat.st_mtimespec.tv_nsec < filee.st_mtimespec.tv_nsec)
+			if ((ls->cmd[3]) ? file.stat.st_mtimespec.tv_nsec > filee.stat.st_mtimespec.tv_nsec : file.stat.st_mtimespec.tv_nsec < filee.stat.st_mtimespec.tv_nsec)
 				return (1);
 		}
 		if ((ls->cmd[3]) ? file.stat.st_mtime > filee.stat.st_mtime : file.stat.st_mtime < filee.stat.st_mtime)
