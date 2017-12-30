@@ -9,6 +9,8 @@ typedef struct			s_ls
 	int					cmd[9];
 	char				*dir;
 	int					max;
+	int					len_user;
+	int					len_group;
 }						t_ls;
 
 typedef struct			s_file_opt
@@ -25,8 +27,6 @@ typedef struct			s_file_ls
 {
 	struct s_file_opt	*files;
 	int					max;
-	int					len_user;
-	int					len_group;
 }						t_file_ls;
 
 void				ft_create_file_ls(char *path, t_ls *ls, int id);
