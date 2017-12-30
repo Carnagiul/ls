@@ -114,7 +114,7 @@ int				is_rotated_file(t_file_ls content, t_ls *ls)
 	i = content.max - 2;
 	if (content.max < 2)
 		return (1);
-	return (is_sorted_file(content.file[i], content.file[i + 1], ls));
+	return (is_sorted_file(content.files[i], content.files[i + 1], ls));
 }
 
 int			get_file_id(t_file_ls content, t_ls *ls)
@@ -124,7 +124,7 @@ int			get_file_id(t_file_ls content, t_ls *ls)
 	i = -1;
 	while (++i < content.max)
 	{
-		if (is_sorted_file(content.file[i], content.file[content.max - 1], ls) == 1)
+		if (is_sorted_file(content.files[i], content.files[content.max - 1], ls) == 1)
 			return (i);
 	}
 	return (0);
