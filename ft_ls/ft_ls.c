@@ -15,9 +15,8 @@ typedef struct			s_file_opt
 {
 	char				*name;
 	char				*mod;
-	int					block;
-	char				*owner;
-	char				*group;
+	int					owner;
+	int					group;
 	int					type;
 	struct stat			stat;
 }						t_file_opt;
@@ -26,9 +25,37 @@ typedef struct			s_file_ls
 {
 	struct s_file_opt	*files;
 	int					max;
+	int					len_user;
+	int					len_group;
 }						t_file_ls;
 
 void				ft_create_file_ls(char *path, t_ls *ls, int id);
+
+
+
+char				*ft_display_file_chmod(struct stat stat)
+{
+	char			*ret;
+
+	ret = ft_malloc(sizeof(char) * 10);
+	ret[0] = (stat.st_mode & S_IRUSR) ? 'r' : '-';
+	ret[1] = (stat.st_mode & S_IWUSR) ? 'w' : '-';
+	ret[2] = (stat.st_mode & S_IXUSR) ? 'x' : '-';
+	if (stat.st_mode & S_ISUID)
+		ret[2] = (stat.st_mode & S_IXUSR) ? 's' : 'S';
+	ret[3] = (stat.st_mode & S_IRGRP) ? 'r' : '-';
+	ret[4] = (stat.st_mode & S_IWGRP) ? 'w' : '-';
+	ret[5] = (stat.st_mode & S_IXGRP) ? 'x' : '-';
+	if (stat.st_mode & S_ISGID)
+		ret[5] = (stat.st_mode & S_IXGRP) ? 's' : 'S';
+	ret[6] = (stat.st_mode & S_IROTH) ? 'r' : '-';
+	ret[7] = (stat.st_mode & S_IWOTH) ? 'w' : '-';
+	ret[8] = (stat.st_mode & S_IXOTH) ? 'x' : '-';
+	if (stat.st_mode & S_ISVTX)
+		ret[8] = (stat.st_mode & S_IXOTH) ? 't' : 'T';
+	ret[9] = '\0';
+	return (ret);
+}
 
 int		ft_filename_len(int count, t_file *file)
 {
@@ -88,43 +115,15 @@ int				is_sorted_file(t_file_opt file, t_file_opt filee, t_ls *ls)
 		}
 		if ((ls->cmd[3]) ? file.stat.st_mtime > filee.stat.st_mtime : file.stat.st_mtime < filee.stat.st_mtime)
 			return (1);
-		/*
-		if (ls->cmd[3])
-		{
-			if (file.stat.st_mtime > filee.stat.st_mtime)
-				return (1);
-			if (file.stat.st_mtime == filee.stat.st_mtime)
-			{
-				if (file.stat.st_mtimespec.tv_nsec > filee.st_mtimespec.tv_nsec)
-					return (1);
-			}
-		}
-		else
-		{
-			if (file.stat.st_mtime < filee.stat.st_mtime)
-				return (1);
-			if (file.stat.st_mtime == filee.stat.st_mtime)
-			{
-				if (file.stat.st_mtimespec.tv_nsec < filee.st_mtimespec.tv_nsec)
-					return (1);
-			}
-		}*/
 	}
 	else
 	{
-		if (ls->cmd[3] == 0)
-		{
-			if (ft_strcmp(file.name, filee.name) > 0)
-				return (1);
-		}
-		else
-		{
-			if (ft_strcmp(file.name, filee.name) < 0)
-				return (1);
-		}
+		if ((ls->cmd[3] == 0) ? ft_strcmp(file.name, filee.name) > 0 : ft_strcmp(file.name, filee.name) < 0)
+			return (1);
 	}
 	return (0);
 }
+
 int				is_rotated_file(t_file_ls content, t_ls *ls)
 {
 	int			i;
@@ -203,9 +202,14 @@ t_file_ls			ft_get_files(char *path, t_ls *ls)
 	DIR				*dir;
 	int				ok;
 
-	content.max = 0;
+	content.max = -1;
 	content.files = ft_malloc(sizeof(t_file_opt) * ft_files_count(path));
 	dir = opendir(path);
+	if (!dir)
+		return (content);
+	ls->len_group = 0;
+	ls->len_user = 0;
+	content.max = 0;
 	if (ls->cmd[2] == 1)
 		ft_printf("%s:\n", path);
 	while ((files = readdir(dir)) != NULL)
@@ -218,7 +222,19 @@ t_file_ls			ft_get_files(char *path, t_ls *ls)
 			content.files[content.max].name = ft_strdup(files->d_name);
 			content.files[content.max].type = files->d_type;
 			if (ls->cmd[1] == 1 || ls->cmd[8] == 1 || ls->cmd[4] == 1)
+			{
 				lstat(files->d_name, &(content.files[content.max].stat));
+				if (ls->cmd[1] == 1)
+				{
+					content.files[content.max].mod = ft_display_file_chmod(content.files[content.max].stat);
+					content.files[content.max].owner = ft_strlen(getpwuid(content.files[content.max].stat.st_uid)->pw_name);
+					content.files[content.max].group = ft_strlen(getgrgid(content.files[content.max].stat.st_gid)->gr_name);
+					if (content.files[content.max].owner > ls->len_user)
+						ls->len_user = content.files[content.max].owner;
+					if (content.files[content.max].group > ls->len_group)
+						ls->len_group = content.files[content.max].group;
+				}
+			}	
 			content.max++;
 			content = rotate_file(content, ls);
 		}
@@ -244,49 +260,22 @@ char				ft_display_file_type(struct stat stat)
 	return ('-');
 }
 
-char				*ft_display_file_chmod(struct stat stat)
-{
-	char			*ret;
-
-	ret = ft_malloc(sizeof(char) * 10);
-	ret[0] = (stat.st_mode & S_IRUSR) ? 'r' : '-';
-	ret[1] = (stat.st_mode & S_IWUSR) ? 'w' : '-';
-	ret[2] = (stat.st_mode & S_IXUSR) ? 'x' : '-';
-	if (stat.st_mode & S_ISUID)
-		ret[2] = (stat.st_mode & S_IXUSR) ? 's' : 'S';
-	ret[3] = (stat.st_mode & S_IRGRP) ? 'r' : '-';
-	ret[4] = (stat.st_mode & S_IWGRP) ? 'w' : '-';
-	ret[5] = (stat.st_mode & S_IXGRP) ? 'x' : '-';
-	if (stat.st_mode & S_ISGID)
-		ret[5] = (stat.st_mode & S_IXGRP) ? 's' : 'S';
-	ret[6] = (stat.st_mode & S_IROTH) ? 'r' : '-';
-	ret[7] = (stat.st_mode & S_IWOTH) ? 'w' : '-';
-	ret[8] = (stat.st_mode & S_IXOTH) ? 'x' : '-';
-	if (stat.st_mode & S_ISVTX)
-		ret[8] = (stat.st_mode & S_IXOTH) ? 't' : 'T';
-	ret[9] = '\0';
-	return (ret);
-}
-
 void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 {
-	char			*mod;
-
 	if (ls->cmd[1] == 1)
 	{
-		mod = ft_display_file_chmod(content.stat);
-		ft_printf("%c%s%5ld %s %s ", ft_display_file_type(content.stat), (long)mod, content.stat.st_nlink, getpwuid(content.stat.st_uid)->pw_name, getgrgid(content.stat.st_gid)->gr_name);
-		free(mod);
+		ft_printf("%c%s%-5ld %-*s %-*s ", ft_display_file_type(content.stat), content.mod, content.stat.st_nlink, ls->len_user, getpwuid(content.stat.st_uid)->pw_name, ls->len_group, getgrgid(content.stat.st_gid)->gr_name);
+		free(content.mod);
 	}
 	if (ls->cmd[7] == 1)
 	{
 		if (content.type == 4)
-			ft_printf("@C%*s@@", ls->max, content.name);
+			ft_printf("@C%-*s@@", ls->max, content.name);
 		else
-			ft_printf("%*s", ls->max, content.name);
+			ft_printf("%-*s", ls->max, content.name);
 	}
 	else
-		ft_printf("%*s", ls->max, content.name);
+		ft_printf("%-*s", ls->max, content.name);
 	if (ls->cmd[7] == 1 || ls->cmd[1] == 1)
 	{
 		ft_printf("\n");
@@ -366,8 +355,12 @@ void				ft_create_file_ls(char *path, t_ls *ls, int id)
 	if (id == 1 && ls->cmd[2] == 1)
 		ft_printf("\n", path);
 	content = ft_get_files(path, ls);
-	if (content.max == 0)
+	if (content.max <= 0)
+	{
+		free(content.files);
+		free(path);
 		return ;
+	}	
 	if (ls->cmd[1] == 1)
 		ft_printf("total %d\n", ft_count_stack(content));
 	ls->max = ft_filename_len_opt(content.max, content.files);
