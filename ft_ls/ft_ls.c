@@ -79,9 +79,9 @@ int		ft_files_count(char *path)
 
 int				is_sorted_file(t_file_opt file, t_file_opt filee, t_ls *ls)
 {
-	if (ls->cmd[4])
+	if (ls->cmd[4] == 0)
 	{
-		if (ls->cmd[3])
+		if (ls->cmd[3] == 0)
 		{
 			if (file.stat.st_atime > filee.stat.st_atime)
 				return (1);
@@ -94,7 +94,7 @@ int				is_sorted_file(t_file_opt file, t_file_opt filee, t_ls *ls)
 	}
 	else
 	{
-		if (ls->cmd[3])
+		if (ls->cmd[3] == 0)
 		{
 			if (ft_strcmp(file.name, filee.name) > 0)
 				return (1);
