@@ -304,7 +304,7 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 	}
 	else
 		ft_printf("%*s", ls->max, content.name);
-	if (ls->cmd[7] == 1)
+	if (ls->cmd[7] == 1 || ls->cmd[1] == 1)
 	{
 		ft_printf("\n");
 	/*
