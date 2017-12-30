@@ -77,23 +77,18 @@ int		ft_files_count(char *path)
 	return (count);
 }
 
-int				is_rotated_file(t_file_ls content, t_ls *ls)
+int				isnt_sorted_file(t_file_opt file, t_file_opt filee, t_ls *ls)
 {
-	int			i;
-
-	i = content.max - 2;
-	if (content.max < 2)
-		return (1);
 	if (ls->cmd[4])
 	{
 		if (ls->cmd[3])
 		{
-			if (content.files[i].stat.st_atime > content.files[i + 1].stat.st_atime)
+			if (file.stat.st_atime > filee.stat.st_atime)
 				return (1);
 		}
 		else
 		{
-			if (content.files[i].stat.st_atime < content.files[i + 1].stat.st_atime)
+			if (file.stat.st_atime < filee.stat.st_atime)
 				return (1);
 		}
 	}
@@ -101,16 +96,37 @@ int				is_rotated_file(t_file_ls content, t_ls *ls)
 	{
 		if (ls->cmd[3])
 		{
-			if (ft_strcmp(content.files[i].name, content.files[i + 1].name) > 0)
+			if (ft_strcmp(file.name, filee.name) > 0)
 				return (1);
 		}
 		else
 		{
-			if (ft_strcmp(content.files[i].name, content.files[i + 1].name) < 0)
+			if (ft_strcmp(file.name, filee.name) < 0)
 				return (1);
 		}
 	}
-	
+	return (0);
+}
+int				is_rotated_file(t_file_ls content, t_ls *ls)
+{
+	int			i;
+
+	i = content.max - 2;
+	if (content.max < 2)
+		return (1);
+	return (is_sorted_file(content.file[i], content.file[i + 1], ls));
+}
+
+int			get_file_id(t_file_ls content, t_ls *ls)
+{
+	int		i;
+
+	i = -1;
+	while (++i < content.max)
+	{
+		if (is_sorted_file(content.file[i], content.file[content.max - 1], ls) == 1)
+			return (i);
+	}
 	return (0);
 }
 
@@ -119,76 +135,25 @@ t_file_ls	rotate_file(t_file_ls content, t_ls *ls)
 	int		j;
 	int		i;
 	t_file_opt	temp;
+	int 	not_sorted;
 
-	j = -1;
+
 	if (is_rotated_file(content,ls) == 0)
 		return (content);
+	not_sorted = get_file_id(content, ls);
+	j = --not_sorted;
 	while (++j < content.max)
 	{
-		i = -1;
+		i = not_sorted;
 		while (++i < content.max)
 		{
-			if (ls->cmd[4] == 1 && i + 1 < content.max)
+			if (i + 1 < content.max)
 			{
-				if (ls->cmd[3] == 1)
+				if (is_sorted_file(content.files[i], content.files[i + 1], ls) == 1)
 				{
-					if (content.files[i].stat.st_atime > content.files[i + 1].stat.st_atime)
-					{
-						temp = content.files[i];
-						content.files[i] = content.files[i + 1];
-						content.files[i + 1] = temp;
-					}
-					if (content.files[i].stat.st_atime == content.files[i + 1].stat.st_atime)
-					{
-						if (ft_strcmp(content.files[i].name, content.files[i + 1].name) > 0)
-						{
-							temp = content.files[i];
-							content.files[i] = content.files[i + 1];
-							content.files[i + 1] = temp;
-						}
-					}
-				}
-				else
-				{
-					if (content.files[i].stat.st_atime < content.files[i + 1].stat.st_atime)
-					{
-						temp = content.files[i];
-						content.files[i] = content.files[i + 1];
-						content.files[i + 1] = temp;
-					}
-					if (content.files[i].stat.st_atime == content.files[i + 1].stat.st_atime)
-					{
-						if (ft_strcmp(content.files[i].name, content.files[i + 1].name) < 0)
-						{
-							temp = content.files[i];
-							content.files[i] = content.files[i + 1];
-							content.files[i + 1] = temp;
-						}
-					}
-				}
-			}
-			else
-			{
-				if (ls->cmd[3] == 1 && i + 1 < content.max)
-				{
-					if (ft_strcmp(content.files[i].name, content.files[i + 1].name) < 0)
-					{
-						temp = content.files[i];
-						content.files[i] = content.files[i + 1];
-						content.files[i + 1] = temp;
-					}
-				}
-				else
-				{
-					if (i + 1 < content.max)
-					{
-						if (ft_strcmp(content.files[i].name, content.files[i + 1].name) > 0)
-						{
-							temp = content.files[i];
-							content.files[i] = content.files[i + 1];
-							content.files[i + 1] = temp;
-						}
-					}
+					temp = content.files[i];
+					content.files[i] = content.files[i + 1];
+					content.files[i + 1] = temp;
 				}
 			}
 		}
@@ -319,8 +284,6 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
     printf("Dernier accès au fichier :         %s", ctime(&content.stat.st_atime));
     printf("Dernière modification du fichier:  %s", ctime(&content.stat.st_mtime));
 	*/
-
-		//
 	}
 
 }
@@ -397,217 +360,7 @@ void				ft_create_file_ls(char *path, t_ls *ls, int id)
 	free(content.files);
 	free(path);
 }
-/*
-t_file		*ft_create_array_files(char *path)
-{
-	int				nb;
-	t_file			*files;
-	struct dirent	*f;
-	DIR				*dir;
-	int				i;
 
-	nb = ft_files_count(path);
-	files = (t_file *)ft_malloc(sizeof(t_file) * nb);
-	i = 0;
-	dir = opendir(path);
-	while ((f = readdir(dir)) != NULL)
-	{
-		files[i].name = ft_strdup(f->d_name);
-		files[i++].type = f->d_type;
-	}
-	closedir(dir);
-	return (files);
-}
-
-void	do_lstat_2(t_file *file, int id)
-{
-	t_file		tmp;
-
-	tmp = file[id];
-	file[id] = file[id + 1];
-	file[id + 1] = tmp;
-}
-
-t_file		*do_lstat(t_file *file, char *path, int count, t_ls *ls)
-{
-	int	bl;
-	int blbl;
- 	struct stat st[count];
- 	struct stat tmp;
- 	char	*data;
-
-	bl = -1;
-	while (++bl < count)
-	{
-		data = ft_strjoin(path, "/");
-		data = ft_free_join1(data, file[bl].name);
-		lstat(data, &(st[bl]));
-		free(data);
-	}
-	bl = -1;
-	while (++bl < count)
-	{
-		blbl = -1;
-		while (++blbl < count - 1)
-		{
-			if (st[blbl].st_atime < st[blbl + 1].st_atime)
-			{
-				do_lstat_2(file, blbl);
-				tmp = st[blbl];
-				st[blbl] = st[blbl + 1];
-				st[blbl + 1] = tmp;
-			}
-		}
-	}
-	return (file);
-}
-
-t_file 	*do_reverse_file(t_file *file, int count)
-{
-	int	i;
-	t_file temp;
-
-	i = 0;
-	while (i < count)
-	{
-		--count;
-		temp = file[i];
-		file[i] = file[count];
-		file[count] = temp;
-		i++;
-	}
-	return (file);
-}
-
-int		ls_is_last(t_ls *ls, int nb, t_file *file, int id)
-{
-	if (id < nb && ls->cmd[0] == 1)
-		return (0);
-	while (id < nb)
-	{
-		if (file[id].name[0] == '.')
-			id++;
-		else
-			return (0);
-	}
-	return (1);
-}
-
-t_file	*trier_tableau(t_file *file, int count)
-{
-	int	i;
-	t_file temp;
-	int	ii;
-
-	ii = 0;
-	while (ii < count)
-	{
-		i = 0;
-		while (i + 1 < count)
-		{
-			if (ft_strcmp(file[i].name, file[i + 1].name) > 0)
-			{
-				temp = file[i];
-				file[i] = file[i + 1];
-				file[i + 1] = temp;
-			}
-			i++;
-		}
-		ii++;
-	}
-	return (file);
-}
-
-t_file		*do_ls_first(t_ls *ls)
-{
-	t_file	*file;
-	int		nb;
-
-	nb = ft_files_count(ls->dir);
-	if (nb == 0)
-		return (NULL);
-	file = ft_create_array_files(ls->dir);
-	if (nb && file)
-		file = trier_tableau(file, nb);
-	if (ls->cmd[2] == 1)
-		ft_printf("%s:\n", ls->dir);
-	if (ls->cmd[3] == 1)
-		file = do_reverse_file(file, nb);
-	return (file);
-}
-
-void	do_ls(t_ls *ls)
-{
-	int		nb;
-	char	*temp_dir;
-	int		i;
-	t_file	*file;
-	int		maxlen;
-
-	temp_dir = ft_strdup(ls->dir);
-	nb = ft_files_count(temp_dir);
-	file = do_ls_first(ls);
-	i = 0;
-	if (nb == 0 || file == NULL)
-		return ;
-	maxlen = ft_filename_len(nb, file);
-	while (i < nb)
-	{
-		if (ls->cmd[0] == 0 && file[i].name[0] == '.')
-		{
-
-		}
-		else
-		{
-			if (ls_is_last(ls, nb, file, i + 1) == 0)
-			{
-				ft_printf("%s", file[i].name);
-				if (ls->cmd[5] == 1)
-				{
-					for (int r = ft_strlen(file[i].name); r < maxlen; r++)
-						ft_printf(" ");
-				}
-				else
-					ft_printf("\t");
-			}
-			else
-				ft_printf("%s\n", file[i].name);
-		}
-		i++;
-	}
-	if (ls->cmd[2] == 1)
-	{
-		i = 0;
-		while (i < nb)
-		{
-			if (file[i].type == 4 &&
-				ft_strcmp(file[i].name, ".") != 0 &&
-				ft_strcmp(file[i].name, "..") != 0)
-			{
-				if (ls->dir[ft_strlen(ls->dir) - 1] != '/')
-						ls->dir = ft_free_join1(ls->dir, "/");
-				if (ls->cmd[0] == 0 && file[i].name[0] != '.')
-				{
-					ls->dir = ft_free_join1(ls->dir, file[i].name);
-					ft_printf("\n");
-					do_ls(ls);
-					free(ls->dir);
-					ls->dir = ft_strdup(temp_dir);
-				}
-				if (ls->cmd[0] == 1)
-				{
-					ls->dir = ft_free_join1(ls->dir, file[i].name);
-					ft_printf("\n");
-					do_ls(ls);
-					free(ls->dir);
-					ls->dir = ft_strdup(temp_dir);
-				}
-			}
-			i++;
-		}
-	}
-}
-*/
 void	addCmd(char *cmd, t_ls *ls)
 {
 	int		i;
