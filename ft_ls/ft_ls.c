@@ -294,16 +294,18 @@ void				ft_display_timefile(time_t timestamp)
 	char							**date;
 	char							**date_date;
 	time_t							t;
+	char							*dt;
 
+	dt = ctime(&timestamp);
 	date = ft_strsplit(ctime(&timestamp), ' ');
 	date_date = ft_strsplit(date[3], ':');
 	ft_strdel_array(date_date);
 	ft_strdel_array(date);
 	t = time(&timestamp);
 	if (t <= 15811200)
-		ft_printf("%2s %2s %2s:%2s ", date[2], date[1], date_date[0], date_date[1]);
+		ft_printf("%2.2s %2.2s %5.5s ", &(dt[8]), &(dt[4]), &(dt[11]));
 	else
-		ft_printf("%2s %2s %5s ", date[2], date[1], date[4]);
+		ft_printf("%2.2s %2.2s %5.5s ", &(dt[8]), &(dt[4]), &(dt[20]));
 }
 
 void				ft_display_ls_file(t_ls *ls, t_file_opt content)
