@@ -292,7 +292,7 @@ void				ft_display_timefile(time_t timestamp)
 {
 	char							**date;
 	char							**date_date;
-	unsigned long long int			t;
+	time_t							t;
 	char							*time;
 
 	time = ctime(&timestamp);
