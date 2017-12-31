@@ -310,10 +310,10 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 		ft_printf("%-*s ", ls->len_user, (content.pswd != NULL) ? content.pswd->pw_name : ft_itoa(content.stat.st_uid));
 		ft_printf("%-*s ", ls->len_group, (content.grp != NULL) ? content.grp->gr_name : ft_itoa(content.stat.st_gid));
 		display_size(content.stat.st_size);
-		if (content.pswd)
-			free(content.pswd);
-		if (content.grp)
-			free(content.grp);
+		//if (content.pswd)
+		//	free(content.pswd);
+		//if (content.grp)
+		//	free(content.grp);
 		free(content.mod);
 	}
 	if (ls->cmd[7] == 1)
