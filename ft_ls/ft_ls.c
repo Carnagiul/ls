@@ -13,6 +13,7 @@ typedef struct			s_ls
 	char				*dir;
 	int					max;
 	int					len_user;
+	int					len_byte;
 	int					len_group;
 }						t_ls;
 
@@ -47,22 +48,6 @@ int			ft_get_pow(int nb)
 		nb /= 10;
 	}
 	return (pow);
-}
-
-void		display_size(off_t size)
-{
-	if (size > 1000000000000)
-		ft_printf(" %d.%dT ", size / 1000000000000, size % 10000000000);
-	else if (size > 1000000000)
-		ft_printf(" %d.%dG ", size / 1000000000, size % 10000000);
-	else if (size > 1000000)
-		ft_printf(" %d.%dM ", size / 1000000, size % 10000);
-	else if (size > 1000 && size / 1000 < 100)
-		ft_printf(" %d.%dK ", size / 1000, size % 10);
-	else if (size > 1000)
-		ft_printf(" %dK ", size / 1000);
-	else
-		ft_printf(" %3dB ", size);
 }
 
 char				*ft_display_file_chmod(struct stat stat)
@@ -240,6 +225,7 @@ t_file_ls			ft_get_files(char *path, t_ls *ls)
 	if (!dir)
 		return (content);
 	ls->len_group = 0;
+	ls->len_byte = 0;
 	ls->len_user = 0;
 	content.max = 0;
 	if (ls->cmd[2] == 1)
@@ -258,6 +244,8 @@ t_file_ls			ft_get_files(char *path, t_ls *ls)
 				lstat(files->d_name, &(content.files[content.max].stat));
 				if (ls->cmd[1] == 1)
 				{
+					if (ft_get_pow(content.files[content.max].stat.st_size) > ls->len_byte)
+						ls->len_byte = ft_get_pow(content.files[content.max].stat.st_size);
 					content.files[content.max].pswd = getpwuid(content.files[content.max].stat.st_uid);
 					content.files[content.max].grp = getgrgid(content.files[content.max].stat.st_gid);
 					content.files[content.max].mod = ft_display_file_chmod(content.files[content.max].stat);
@@ -309,7 +297,7 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 		ft_printf("%5ld ", content.stat.st_nlink);
 		ft_printf("%-*s ", ls->len_user, (content.pswd != NULL) ? content.pswd->pw_name : ft_itoa(content.stat.st_uid));
 		ft_printf("%-*s ", ls->len_group, (content.grp != NULL) ? content.grp->gr_name : ft_itoa(content.stat.st_gid));
-		display_size(content.stat.st_size);
+		ft_printf("%-*lld ", ls->len_byte + 1,  content.stat.st_size);
 		//if (content.pswd)
 		//	free(content.pswd);
 		//if (content.grp)
@@ -459,6 +447,7 @@ void ft_ls(int argc, char **argv)
 	ls = (t_ls *)ft_malloc(sizeof(t_ls));
 	ls->len_group = 0;
 	ls->len_user = 0;
+	ls->len_byte = 0;
 	ls->cmd[0] = 0;
 	ls->cmd[6] = 0;
 	ls->cmd[7] = 0;
