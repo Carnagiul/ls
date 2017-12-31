@@ -27,9 +27,6 @@ typedef struct			s_file_opt
 	struct stat			stat;
 	t_pswd				*pswd;
 	t_group				*grp;
-	char				day[2];
-	char				month[3];
-	char				date[5];
 }						t_file_opt;
 
 typedef struct			s_file_ls
@@ -291,6 +288,23 @@ char				ft_display_file_type(struct stat stat)
 	return ('-');
 }
 
+void				ft_display_timefile(char *time, long long int timestamp)
+{
+	char			**date;
+	char			**date_date;
+	time_t			t;
+
+	date = ft_strsplit(time, ' ');
+	date_date = ft_strsplit(date[3], ':');
+	ft_strdel_array(date_date);
+	ft_strdel_array(date);
+	t = time(NULL);
+	if (t - 15811200 <= timestamp)
+		ft_printf("%s %s %s:%s ", date[2], date[1], date_date[0], date_date[1]);
+	else
+		ft_printf("%s %s %5s ", date[2], date[1], date[4]);
+}
+
 void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 {
 	if (ls->cmd[1] == 1)
@@ -301,7 +315,7 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 		ft_printf("%-*s  ", ls->len_user, (content.pswd != NULL) ? content.pswd->pw_name : ft_itoa(content.stat.st_uid));
 		ft_printf("%-*s ", ls->len_group, (content.grp != NULL) ? content.grp->gr_name : ft_itoa(content.stat.st_gid));
 		ft_printf("%*lld ", ls->len_byte + 1,  content.stat.st_size);
-	    printf("%s ", ctime(&content.stat.st_ctime));
+	    ft_display_timefile(ctime(&content.stat.st_ctime), content.stat.st_ctime);
 
 		//if (content.pswd)
 		//	free(content.pswd);
