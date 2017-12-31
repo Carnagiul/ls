@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include <pwd.h>
 #include <grp.h>
+#include <time.h>
 
 typedef struct  passwd  t_pswd;
 typedef struct  group   t_group;
