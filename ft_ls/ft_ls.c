@@ -294,10 +294,10 @@ void				ft_display_timefile(time_t timestamp)
 	char							**date;
 	char							**date_date;
 	time_t							t;
-	char							*time;
+	char							*timee;
 
-	time = ctime(&timestamp);
-	date = ft_strsplit(time, ' ');
+	timee = ctime(&timestamp);
+	date = ft_strsplit(timee, ' ');
 	date_date = ft_strsplit(date[3], ':');
 	ft_strdel_array(date_date);
 	ft_strdel_array(date);
