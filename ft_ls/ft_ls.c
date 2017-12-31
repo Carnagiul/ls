@@ -301,11 +301,11 @@ void				ft_display_timefile(time_t timestamp)
 	date_date = ft_strsplit(date[3], ':');
 	ft_strdel_array(date_date);
 	ft_strdel_array(date);
-	t = time(&timestamp);
-	if (t <= 15811200)
-		ft_printf("%2.2s %2.2s %5.5s ", &(dt[8]), &(dt[4]), &(dt[11]));
+	t = time(NULL);
+	if (t - timestamp <= 15811200)
+		ft_printf("%2.2s %3.3s %5.5s ", &(dt[8]), &(dt[4]), &(dt[11]));
 	else
-		ft_printf("%2.2s %2.2s %5.5s ", &(dt[8]), &(dt[4]), &(dt[20]));
+		ft_printf("%2.2s %3.3s %5.5s ", &(dt[8]), &(dt[4]), &(dt[20]));
 }
 
 void				ft_display_ls_file(t_ls *ls, t_file_opt content)
