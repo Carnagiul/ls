@@ -291,16 +291,10 @@ char				ft_display_file_type(struct stat stat)
 
 void				ft_display_timefile(time_t timestamp)
 {
-	char							**date;
-	char							**date_date;
-	time_t							t;
-	char							*dt;
+	time_t			t;
+	char			*dt;
 
 	dt = ctime(&timestamp);
-	date = ft_strsplit(ctime(&timestamp), ' ');
-	date_date = ft_strsplit(date[3], ':');
-	ft_strdel_array(date_date);
-	ft_strdel_array(date);
 	t = time(NULL);
 	if (t - timestamp <= 15811200)
 		ft_printf("%2.2s %3.3s %5.5s ", &(dt[8]), &(dt[4]), &(dt[11]));
@@ -318,12 +312,7 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 		ft_printf("%-*s  ", ls->len_user, (content.pswd != NULL) ? content.pswd->pw_name : ft_itoa(content.stat.st_uid));
 		ft_printf("%-*s ", ls->len_group, (content.grp != NULL) ? content.grp->gr_name : ft_itoa(content.stat.st_gid));
 		ft_printf("%*lld ", ls->len_byte + 1,  content.stat.st_size);
-	    ft_display_timefile(content.stat.st_ctime);
-
-		//if (content.pswd)
-		//	free(content.pswd);
-		//if (content.grp)
-		//	free(content.grp);
+	    ft_display_timefile(content.stat.st_mtime);
 		free(content.mod);
 	}
 	if (ls->cmd[7] == 1)
