@@ -27,6 +27,9 @@ typedef struct			s_file_opt
 	struct stat			stat;
 	t_pswd				*pswd;
 	t_group				*grp;
+	char				day[2];
+	char				month[3];
+	char				date[5];
 }						t_file_opt;
 
 typedef struct			s_file_ls
@@ -298,6 +301,8 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 		ft_printf("%-*s  ", ls->len_user, (content.pswd != NULL) ? content.pswd->pw_name : ft_itoa(content.stat.st_uid));
 		ft_printf("%-*s ", ls->len_group, (content.grp != NULL) ? content.grp->gr_name : ft_itoa(content.stat.st_gid));
 		ft_printf("%*lld ", ls->len_byte + 1,  content.stat.st_size);
+	    printf("%s ", ctime(&content.stat.st_ctime));
+
 		//if (content.pswd)
 		//	free(content.pswd);
 		//if (content.grp)
