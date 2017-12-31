@@ -307,8 +307,8 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 		ft_printf("%c", ft_display_file_type(content.stat));
 		ft_printf("%s ", content.mod);
 		ft_printf("%5ld ", content.stat.st_nlink);
-		ft_printf("%-*s ", ls->len_user, (pswd != NULL) ? content.pswd->pw_name : ft_itoa(content.stat.st_uid));
-		ft_printf("%-*s ", ls->len_group, (grp != NULL) ? content.grp->gr_name : ft_itoa(content.stat.st_gid));
+		ft_printf("%-*s ", ls->len_user, (content.pswd != NULL) ? content.pswd->pw_name : ft_itoa(content.stat.st_uid));
+		ft_printf("%-*s ", ls->len_group, (content.grp != NULL) ? content.grp->gr_name : ft_itoa(content.stat.st_gid));
 		display_size(content.stat.st_size);
 		if (content.pswd)
 			free(content.pswd);
