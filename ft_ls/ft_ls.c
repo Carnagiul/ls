@@ -264,11 +264,11 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 {
 	if (ls->cmd[1] == 1)
 	{
-		ft_printf("%c ----1----\n", ft_display_file_type(content.stat));
-		ft_printf("%s ----2----\n", content.mod);
-		ft_printf("%5ld ----3----\n", content.stat.st_nlink);
-		ft_printf("%-*s ----4----\n", ls->len_user, getpwuid(content.stat.st_uid)->pw_name);
-		ft_printf("%-*s ----5----\n", ls->len_group, getgrgid(content.stat.st_gid)->gr_name);
+		ft_printf("%c", ft_display_file_type(content.stat));
+		ft_printf("%s ", content.mod);
+		ft_printf("%5ld ", content.stat.st_nlink);
+		ft_printf("%-*s ", ls->len_user, getpwuid(content.stat.st_uid)->pw_name);
+		ft_printf("%-*s ", ls->len_group, getgrgid(content.stat.st_gid)->gr_name);
 		free(content.mod);
 	}
 	if (ls->cmd[7] == 1)
