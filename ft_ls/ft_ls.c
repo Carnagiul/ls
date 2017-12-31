@@ -295,7 +295,7 @@ void				ft_display_timefile(unsigned long long int timestamp)
 	unsigned long long int			t;
 	char							*time;
 
-	time = ctime(&timestamp)
+	time = ctime(&timestamp);
 	date = ft_strsplit(time, ' ');
 	date_date = ft_strsplit(date[3], ':');
 	ft_strdel_array(date_date);
