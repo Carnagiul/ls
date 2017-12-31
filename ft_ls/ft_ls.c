@@ -258,15 +258,15 @@ t_file_ls			ft_get_files(char *path, t_ls *ls)
 				lstat(files->d_name, &(content.files[content.max].stat));
 				if (ls->cmd[1] == 1)
 				{
-					content.files[content.max].pswd = getpwuid(content.stat.st_uid);
-					content.files[content.max].grp = getgrgid(content.stat.st_gid);
+					content.files[content.max].pswd = getpwuid(content.files[content.max].stat.st_uid);
+					content.files[content.max].grp = getgrgid(content.files[content.max].stat.st_gid);
 					content.files[content.max].mod = ft_display_file_chmod(content.files[content.max].stat);
 					if (content.files[content.max].pswd != NULL)
 						content.files[content.max].owner = ft_strlen(content.files[content.max].pswd->pw_name);
 					else
 						content.files[content.max].owner = ft_get_pow(content.files[content.max].stat.st_uid) + 1;
 					if (content.files[content.max].grp != NULL)
-						content.files[content.max].group = ft_strlen(content.files[content.max].grp->pw_name);
+						content.files[content.max].group = ft_strlen(content.files[content.max].grp->gr_name);
 					else
 						content.files[content.max].group = ft_get_pow(content.files[content.max].stat.st_gid) + 1;
 					if (content.files[content.max].owner > ls->len_user)
