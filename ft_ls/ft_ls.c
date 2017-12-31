@@ -288,7 +288,7 @@ char				ft_display_file_type(struct stat stat)
 	return ('-');
 }
 
-void				ft_display_timefile(char *time, long long int timestamp)
+void				ft_display_timefile(char *time, unsigned long long int timestamp)
 {
 	char							**date;
 	char							**date_date;
