@@ -301,7 +301,7 @@ void				ft_display_timefile(time_t timestamp)
 	date_date = ft_strsplit(date[3], ':');
 	ft_strdel_array(date_date);
 	ft_strdel_array(date);
-	t = time(NULL);
+	t = time();
 	if (t - 15811200 <= timestamp)
 		ft_printf("%s %s %s:%s ", date[2], date[1], date_date[0], date_date[1]);
 	else
