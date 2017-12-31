@@ -290,9 +290,9 @@ char				ft_display_file_type(struct stat stat)
 
 void				ft_display_timefile(char *time, long long int timestamp)
 {
-	char			**date;
-	char			**date_date;
-	time_t			t;
+	char							**date;
+	char							**date_date;
+	unsigned long long int			t;
 
 	date = ft_strsplit(time, ' ');
 	date_date = ft_strsplit(date[3], ':');
