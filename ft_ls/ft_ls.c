@@ -52,17 +52,17 @@ int			ft_get_pow(int nb)
 void		display_size(off_t size)
 {
 	if (size > 1000000000000)
-		ft_printf(" %d.%dT", size / 1000000000000, size % 10000000000);
+		ft_printf(" %d.%dT ", size / 1000000000000, size % 10000000000);
 	else if (size > 1000000000)
-		ft_printf(" %d.%dG", size / 1000000000, size % 10000000);
+		ft_printf(" %d.%dG ", size / 1000000000, size % 10000000);
 	else if (size > 1000000)
-		ft_printf(" %d.%dM", size / 1000000, size % 10000);
+		ft_printf(" %d.%dM ", size / 1000000, size % 10000);
 	else if (size > 1000 && size / 1000 < 100)
-		ft_printf(" %d.%dK", size / 1000, size % 10);
+		ft_printf(" %d.%dK ", size / 1000, size % 10);
 	else if (size > 1000)
-		ft_printf(" %dK", size / 1000);
+		ft_printf(" %dK ", size / 1000);
 	else
-		ft_printf(" %3dB", size);
+		ft_printf(" %3dB ", size);
 }
 
 char				*ft_display_file_chmod(struct stat stat)
