@@ -4,6 +4,9 @@
 #include <pwd.h>
 #include <grp.h>
 
+typedef struct  passwd  t_pswd;
+typedef struct  group   t_group;
+
 typedef struct			s_ls
 {
 	int					cmd[9];
@@ -21,6 +24,8 @@ typedef struct			s_file_opt
 	int					group;
 	int					type;
 	struct stat			stat;
+	t_pswd				*pswd;
+	t_group				*grp;
 }						t_file_opt;
 
 typedef struct			s_file_ls
@@ -31,7 +36,34 @@ typedef struct			s_file_ls
 
 void				ft_create_file_ls(char *path, t_ls *ls, int id);
 
+int			ft_get_pow(int nb)
+{
+	int				pow;
 
+	pow = 0;
+	while (nb != 0)
+	{
+		pow++;
+		nb /= 10;
+	}
+	return (pow);
+}
+
+void		display_size(off_t size)
+{
+	if (size > 1000000000000)
+		ft_printf(" %d.%dT", size / 1000000000000, size % 10000000000);
+	else if (size > 1000000000)
+		ft_printf(" %d.%dG", size / 1000000000, size % 10000000);
+	else if (size > 1000000)
+		ft_printf(" %d.%dM", size / 1000000, size % 10000);
+	else if (size > 1000 && size / 1000 < 100)
+		ft_printf(" %d.%dK", size / 1000, size % 10);
+	else if (size > 1000)
+		ft_printf(" %dK", size / 1000);
+	else
+		ft_printf(" %3dB", size);
+}
 
 char				*ft_display_file_chmod(struct stat stat)
 {
@@ -226,9 +258,17 @@ t_file_ls			ft_get_files(char *path, t_ls *ls)
 				lstat(files->d_name, &(content.files[content.max].stat));
 				if (ls->cmd[1] == 1)
 				{
+					content.files[content.max].pswd = getpwuid(content.stat.st_uid);
+					content.files[content.max].grp = getgrgid(content.stat.st_gid);
 					content.files[content.max].mod = ft_display_file_chmod(content.files[content.max].stat);
-					content.files[content.max].owner = ft_strlen(getpwuid(content.files[content.max].stat.st_uid)->pw_name);
-					content.files[content.max].group = ft_strlen(getgrgid(content.files[content.max].stat.st_gid)->gr_name);
+					if (content.files[content.max].pswd != NULL)
+						content.files[content.max].owner = ft_strlen(content.files[content.max].pswd->pw_name);
+					else
+						content.files[content.max].owner = ft_get_pow(content.files[content.max].stat.st_uid) + 1;
+					if (content.files[content.max].grp != NULL)
+						content.files[content.max].group = ft_strlen(content.files[content.max].grp->pw_name);
+					else
+						content.files[content.max].group = ft_get_pow(content.files[content.max].stat.st_gid) + 1;
 					if (content.files[content.max].owner > ls->len_user)
 						ls->len_user = content.files[content.max].owner;
 					if (content.files[content.max].group > ls->len_group)
@@ -267,8 +307,13 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 		ft_printf("%c", ft_display_file_type(content.stat));
 		ft_printf("%s ", content.mod);
 		ft_printf("%5ld ", content.stat.st_nlink);
-		ft_printf("%-*s ", ls->len_user, getpwuid(content.stat.st_uid)->pw_name);
-		ft_printf("%-*s ", ls->len_group, getgrgid(content.stat.st_gid)->gr_name);
+		ft_printf("%-*s ", ls->len_user, (pswd != NULL) ? content.pswd->pw_name : ft_itoa(content.stat.st_uid));
+		ft_printf("%-*s ", ls->len_group, (grp != NULL) ? content.grp->gr_name : ft_itoa(content.stat.st_gid));
+		display_size(content.stat.st_size);
+		if (content.pswd)
+			free(content.pswd);
+		if (content.grp)
+			free(content.grp);
 		free(content.mod);
 	}
 	if (ls->cmd[7] == 1)
