@@ -299,7 +299,7 @@ void				ft_display_timefile(time_t timestamp)
 	if (t - timestamp <= 15811200)
 		ft_printf("%2.2s %3.3s %5.5s ", &(dt[8]), &(dt[4]), &(dt[11]));
 	else
-		ft_printf("%2.2s %3.3s %5.4s ", &(dt[8]), &(dt[4]), &(dt[20]));
+		ft_printf("%2.2s %3.3s %s ", &(dt[8]), &(dt[4]), "AUTRE");
 }
 
 void				ft_display_ls_file(t_ls *ls, t_file_opt content)
