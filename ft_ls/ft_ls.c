@@ -212,8 +212,8 @@ void				x(int len, char *name)
 void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 {
 	int				test;
-	t_pswd			pswd;
-	t_group			grp;
+	t_pswd			*pswd;
+	t_group			*grp;
 
 	test = 0;
 	if (ls->cmd[1] == 1)
@@ -232,11 +232,11 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 		if (pswd == NULL)
 			ft_printf("%-*s  ", ls->len_user + 1, ft_itoa(content.stat.st_uid));
 		else
-			ft_printf("%-*s  ", ls->len_user + 1, pswd.pw_name);
+			ft_printf("%-*s  ", ls->len_user + 1, pswd->pw_name);
 		if (content.grp == NULL)
 			ft_printf("%-*s  ", ls->len_group + 1, ft_itoa(content.stat.st_gid));
 		else
-			ft_printf("%-*s  ", ls->len_group + 1, grp.gr_name);
+			ft_printf("%-*s  ", ls->len_group + 1, grp->gr_name);
 		ft_printf("%*lld ", ls->len_byte + 1,  content.stat.st_size);
 	    ft_display_timefile(content.stat.st_mtime);
 		free(content.mod);
