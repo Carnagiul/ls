@@ -221,15 +221,15 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 		else
 			ft_printf("%s ", "XXXXXXXXX");
 
-		//ft_printf("%5ld ", content.stat.st_nlink);
-		if (content.pswd == NULL)
-			ft_printf("%-*s  ", ls->len_user + 1, ft_itoa(content.stat.st_uid));
-		else
-			ft_printf("%-*s  ", ls->len_user + 1, content.pswd->pw_name);
-		if (content.grp == NULL)
-			ft_printf("%-*s  ", ls->len_group + 1, ft_itoa(content.stat.st_gid));
-		else
-			ft_printf("%-*s  ", ls->len_group + 1, content.grp->gr_name);
+		ft_printf("%5ld ", content.stat.st_nlink);
+		//if (content.pswd == NULL)
+		//	ft_printf("%-*s  ", ls->len_user + 1, ft_itoa(content.stat.st_uid));
+		//else
+		//	ft_printf("%-*s  ", ls->len_user + 1, content.pswd->pw_name);
+		//if (content.grp == NULL)
+		//	ft_printf("%-*s  ", ls->len_group + 1, ft_itoa(content.stat.st_gid));
+		//else
+		//	ft_printf("%-*s  ", ls->len_group + 1, content.grp->gr_name);
 		ft_printf("%*lld ", ls->len_byte + 1,  content.stat.st_size);
 	    ft_display_timefile(content.stat.st_mtime);
 		free(content.mod);
