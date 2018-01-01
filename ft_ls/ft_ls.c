@@ -227,8 +227,6 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 			ft_printf("%s ", "XXXXXXXXX");
 
 		ft_printf("%5ld ", content.stat.st_nlink);
-		x(ls->len_user + 1, content.pswd->pw_name);
-		x(ls->len_group + 1, content.grp->gr_name);
 		if (pswd == NULL)
 			ft_printf("%-*s  ", ls->len_user + 1, ft_itoa(content.stat.st_uid));
 		else
