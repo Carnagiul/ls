@@ -1,20 +1,5 @@
 #include "../libft.h"
 
-/*
-int		ft_filename_len(int count, t_file *file)
-{
-	int i;
-	int	len;
-
-	len = 0;
-	i = -1;
-	while (++i < count)
-		len = (len < ft_strlen(file[i].name)) ? ft_strlen(file[i].name) : len;
-	while (len % 4 != 0)
-		len++;
-	return (len);
-}
-*/
 int		ft_filename_len_opt(int count, t_file_opt *file)
 {
 	int i;
@@ -221,11 +206,7 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 		pswd = getpwuid(content.stat.st_uid);
 		grp = getgrgid(content.stat.st_gid);
 		ft_printf("%c", ft_display_file_type(content.stat));
-		if (content.mod)
-			ft_printf("%s ", content.mod);
-		else
-			ft_printf("%s ", "XXXXXXXXX");
-
+		ft_printf("%s ", content.mod);
 		ft_printf("%5ld ", content.stat.st_nlink);
 		if (pswd == NULL)
 			ft_printf("%-*s  ", ls->len_user + 1, ft_itoa(content.stat.st_uid));
