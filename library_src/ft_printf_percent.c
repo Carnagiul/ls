@@ -24,12 +24,12 @@ void		ft_parser_percent_2(const char *format, t_print *print, va_list *vl)
 			{
 				if (print->precision->before_display != 0)
 					print->precision->before_display = 0;
-				print->len = va_arg(*vl, int);
+				print->len = va_arg(*vl, long int);
 				print->len_found = 1;
 			}
 			else if (print->precision->dot_found == 1 &&
 					print->precision->after_display == 0)
-				print->width = va_arg(*vl, int);
+				print->width = va_arg(*vl, long int);
 		}
 		print->i++;
 	}
