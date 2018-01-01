@@ -212,17 +212,14 @@ void				x(int len, char *name)
 void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 {
 	int				test;
+	t_pswd			pswd;
+	t_group			grp;
 
 	test = 0;
 	if (ls->cmd[1] == 1)
 	{
-		ft_printf("SEGV %d == %d\n ", ++test, 1);
-		ft_printf("SEGV %d == %d\n ", ++test, 9);
-		ft_printf("SEGV %d == %d\n ", ++test, 5);
-		ft_printf("SEGV %d == %d\n ", ++test, ls->len_user + 1);
-		ft_printf("SEGV %d == %d\n ", ++test, ls->len_group + 1);
-		ft_printf("SEGV %d == %d\n ", ++test, ls->len_byte + 1);
-
+		pswd = getpwuid(content.stat.st_uid);
+		grp = getgrgid(content.stat.st_gid);
 		ft_printf("%c", ft_display_file_type(content.stat));
 		if (content.mod)
 			ft_printf("%s ", content.mod);
@@ -232,14 +229,14 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 		ft_printf("%5ld ", content.stat.st_nlink);
 		x(ls->len_user + 1, content.pswd->pw_name);
 		x(ls->len_group + 1, content.grp->gr_name);
-		//if (content.pswd == NULL)
-		//	ft_printf("% -*s  ", ls->len_user + 1, ls->len_user + 1, ft_itoa(content.stat.st_uid));
-		//else
-		//	ft_printf("% -*s  ", ls->len_user + 1, ls->len_user + 1, content.pswd->pw_name);
-		//if (content.grp == NULL)
-		//	ft_printf("%-*s  ", ls->len_group + 1, ft_itoa(content.stat.st_gid));
-		//else
-		//	ft_printf("%-*s  ", ls->len_group + 1, content.grp->gr_name);
+		if (pswd == NULL)
+			ft_printf("%-*s  ", ls->len_user + 1, ft_itoa(content.stat.st_uid));
+		else
+			ft_printf("%-*s  ", ls->len_user + 1, pswd->pw_name);
+		if (content.grp == NULL)
+			ft_printf("%-*s  ", ls->len_group + 1, ft_itoa(content.stat.st_gid));
+		else
+			ft_printf("%-*s  ", ls->len_group + 1, grp->gr_name);
 		ft_printf("%*lld ", ls->len_byte + 1,  content.stat.st_size);
 	    ft_display_timefile(content.stat.st_mtime);
 		free(content.mod);
