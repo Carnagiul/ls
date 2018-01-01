@@ -1,80 +1,6 @@
 #include "../libft.h"
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <pwd.h>
-#include <grp.h>
-#include <time.h>
 
-typedef struct  passwd  t_pswd;
-typedef struct  group   t_group;
-
-typedef struct			s_ls
-{
-	int					cmd[9];
-	char				*dir;
-	int					max;
-	int					len_user;
-	int					len_byte;
-	int					len_group;
-}						t_ls;
-
-typedef struct			s_file_opt
-{
-	char				*name;
-	char				*mod;
-	int					owner;
-	int					group;
-	int					type;
-	struct stat			stat;
-	t_pswd				*pswd;
-	t_group				*grp;
-}						t_file_opt;
-
-typedef struct			s_file_ls
-{
-	struct s_file_opt	*files;
-	int					max;
-}						t_file_ls;
-
-void				ft_create_file_ls(char *path, t_ls *ls, int id);
-
-int			ft_get_pow(int nb)
-{
-	int				pow;
-
-	pow = 0;
-	while (nb != 0)
-	{
-		pow++;
-		nb /= 10;
-	}
-	return (pow);
-}
-
-char				*ft_display_file_chmod(struct stat stat)
-{
-	char			*ret;
-
-	ret = ft_malloc(sizeof(char) * 10);
-	ret[0] = (stat.st_mode & S_IRUSR) ? 'r' : '-';
-	ret[1] = (stat.st_mode & S_IWUSR) ? 'w' : '-';
-	ret[2] = (stat.st_mode & S_IXUSR) ? 'x' : '-';
-	if (stat.st_mode & S_ISUID)
-		ret[2] = (stat.st_mode & S_IXUSR) ? 's' : 'S';
-	ret[3] = (stat.st_mode & S_IRGRP) ? 'r' : '-';
-	ret[4] = (stat.st_mode & S_IWGRP) ? 'w' : '-';
-	ret[5] = (stat.st_mode & S_IXGRP) ? 'x' : '-';
-	if (stat.st_mode & S_ISGID)
-		ret[5] = (stat.st_mode & S_IXGRP) ? 's' : 'S';
-	ret[6] = (stat.st_mode & S_IROTH) ? 'r' : '-';
-	ret[7] = (stat.st_mode & S_IWOTH) ? 'w' : '-';
-	ret[8] = (stat.st_mode & S_IXOTH) ? 'x' : '-';
-	if (stat.st_mode & S_ISVTX)
-		ret[8] = (stat.st_mode & S_IXOTH) ? 't' : 'T';
-	ret[9] = '\0';
-	return (ret);
-}
-
+/*
 int		ft_filename_len(int count, t_file *file)
 {
 	int i;
@@ -88,7 +14,7 @@ int		ft_filename_len(int count, t_file *file)
 		len++;
 	return (len);
 }
-
+*/
 int		ft_filename_len_opt(int count, t_file_opt *file)
 {
 	int i;
@@ -245,19 +171,19 @@ t_file_ls			ft_get_files(char *path, t_ls *ls)
 				lstat(files->d_name, &(content.files[content.max].stat));
 				if (ls->cmd[1] == 1)
 				{
-					if (ft_get_pow(content.files[content.max].stat.st_size) > ls->len_byte)
-						ls->len_byte = ft_get_pow(content.files[content.max].stat.st_size);
+					if (ft_pow(content.files[content.max].stat.st_size) > ls->len_byte)
+						ls->len_byte = ft_pow(content.files[content.max].stat.st_size);
 					content.files[content.max].pswd = getpwuid(content.files[content.max].stat.st_uid);
 					content.files[content.max].grp = getgrgid(content.files[content.max].stat.st_gid);
 					content.files[content.max].mod = ft_display_file_chmod(content.files[content.max].stat);
 					if (content.files[content.max].pswd != NULL)
 						content.files[content.max].owner = ft_strlen(content.files[content.max].pswd->pw_name);
 					else
-						content.files[content.max].owner = ft_get_pow(content.files[content.max].stat.st_uid) + 1;
+						content.files[content.max].owner = ft_pow(content.files[content.max].stat.st_uid) + 1;
 					if (content.files[content.max].grp != NULL)
 						content.files[content.max].group = ft_strlen(content.files[content.max].grp->gr_name);
 					else
-						content.files[content.max].group = ft_get_pow(content.files[content.max].stat.st_gid) + 1;
+						content.files[content.max].group = ft_pow(content.files[content.max].stat.st_gid) + 1;
 					if (content.files[content.max].owner > ls->len_user)
 						ls->len_user = content.files[content.max].owner;
 					if (content.files[content.max].group > ls->len_group)
@@ -270,36 +196,6 @@ t_file_ls			ft_get_files(char *path, t_ls *ls)
 	}
 	closedir(dir);
 	return (content);
-}
-
-char				ft_display_file_type(struct stat stat)
-{
-	if ((stat.st_mode & S_IFMT) == S_IFBLK)
-		return ('b');
-	if ((stat.st_mode & S_IFMT) == S_IFCHR)
-		return ('c');
-	if ((stat.st_mode & S_IFMT) == S_IFDIR)
-		return ('d');
-	if ((stat.st_mode & S_IFMT) == S_IFIFO)
-		return ('p');
-	if ((stat.st_mode & S_IFMT) == S_IFSOCK)
-		return ('s');
-	if ((stat.st_mode & S_IFMT) == S_IFLNK)
-		return ('l');
-	return ('-');
-}
-
-void				ft_display_timefile(time_t timestamp)
-{
-	time_t			t;
-	char			*dt;
-
-	dt = ctime(&timestamp);
-	t = time(NULL);
-	if (t - timestamp <= 15811200)
-		ft_printf("%2.2s %3.3s %5.5s ", &(dt[8]), &(dt[4]), &(dt[11]));
-	else
-		ft_printf("%2.2s %3.3s %s ", &(dt[8]), &(dt[4]), "AUTRE");
 }
 
 void				ft_display_ls_file(t_ls *ls, t_file_opt content)
@@ -327,18 +223,6 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 	if (ls->cmd[7] == 1 || ls->cmd[1] == 1)
 	{
 		ft_printf("\n");
-	/*
-    printf("Numéro d'inœud :                   %ld\n", (long) content.stat.st_ino);
-    printf("Nombre de liens :                  %ld\n", (long) content.stat.st_nlink);
-    printf("Propriétaires :                    UID=%ld   GID=%ld\n", (long) content.stat.st_uid, (long) content.stat.st_gid);
-
-    printf("Taille de bloc d’E/S :             %ld octets\n", (long) content.stat.st_blksize);
-    printf("Taille du fichier :                %lld octets\n", (long long) content.stat.st_size);
-    printf("Blocs alloués :                    %lld\n", (long long) content.stat.st_blocks);
-    printf("Dernier changement d’état :        %s", ctime(&content.stat.st_ctime));
-    printf("Dernier accès au fichier :         %s", ctime(&content.stat.st_atime));
-    printf("Dernière modification du fichier:  %s", ctime(&content.stat.st_mtime));
-	*/
 	}
 
 }

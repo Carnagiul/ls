@@ -23,6 +23,10 @@
 # include <stdint.h>
 # include <dirent.h>
 # include <time.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <pwd.h>
+# include <grp.h>
 # include "include/ft_files.h"
 # include "include/ft_ls.h"
 # include "include/ft_math.h"

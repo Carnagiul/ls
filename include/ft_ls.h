@@ -4,6 +4,42 @@
 # define VERSION "1.0.0"
 # define USAGE "[aRrtlC] [file]"
 
-void	ft_ls(int argc, char **argv);
+typedef struct  passwd  t_pswd;
+typedef struct  group   t_group;
+
+typedef struct			s_ls
+{
+	int					cmd[9];
+	char				*dir;
+	int					max;
+	int					len_user;
+	int					len_byte;
+	int					len_group;
+}						t_ls;
+
+typedef struct			s_file_opt
+{
+	char				*name;
+	char				*mod;
+	int					owner;
+	int					group;
+	int					type;
+	struct stat			stat;
+	t_pswd				*pswd;
+	t_group				*grp;
+}						t_file_opt;
+
+typedef struct			s_file_ls
+{
+	struct s_file_opt	*files;
+	int					max;
+}						t_file_ls;
+
+void					ft_ls(int argc, char **argv);
+void					ft_create_file_ls(char *path, t_ls *ls, int id);
+char					*ft_display_file_chmod(struct stat stat);
+char					ft_display_file_type(struct stat stat);
+void					ft_display_timefile(time_t timestamp);
+
 
 #endif
