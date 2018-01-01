@@ -146,7 +146,6 @@ t_file_ls			ft_get_files(char *path, t_ls *ls)
 	DIR				*dir;
 	int				ok;
 	char			*filepath;
-	int 			test;
 
 	content.max = -1;
 	content.files = ft_malloc(sizeof(t_file_opt) * ft_files_count(path));
@@ -175,33 +174,23 @@ t_file_ls			ft_get_files(char *path, t_ls *ls)
 				free(filepath);
 				if (ls->cmd[1] == 1)
 				{
-					test = 0;
-					ft_printf("SEGV %d\n", ++test);
 					if (ft_pow(content.files[content.max].stat.st_size) > ls->len_byte)
 						ls->len_byte = ft_pow(content.files[content.max].stat.st_size);
-					ft_printf("SEGV %d\n", ++test);
 					content.files[content.max].pswd = getpwuid(content.files[content.max].stat.st_uid);
-					ft_printf("SEGV %d\n", ++test);
 					content.files[content.max].grp = getgrgid(content.files[content.max].stat.st_gid);
-					ft_printf("SEGV %d\n", ++test);
 					content.files[content.max].mod = ft_display_file_chmod(content.files[content.max].stat);
-					ft_printf("SEGV %d\n", ++test);
 					if (content.files[content.max].pswd != NULL)
 						content.files[content.max].owner = ft_strlen(content.files[content.max].pswd->pw_name);
 					else
 						content.files[content.max].owner = ft_pow(content.files[content.max].stat.st_uid) + 1;
-					ft_printf("SEGV %d\n", ++test);
 					if (content.files[content.max].grp != NULL)
 						content.files[content.max].group = ft_strlen(content.files[content.max].grp->gr_name);
 					else
 						content.files[content.max].group = ft_pow(content.files[content.max].stat.st_gid) + 1;
-					ft_printf("SEGV %d\n", ++test);
 					if (content.files[content.max].owner > ls->len_user)
 						ls->len_user = content.files[content.max].owner;
-					ft_printf("SEGV %d\n", ++test);
 					if (content.files[content.max].group > ls->len_group)
 						ls->len_group = content.files[content.max].group;
-					ft_printf("SEGV %d\n", ++test);
 				}
 			}	
 			content.max++;
@@ -217,10 +206,19 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 	if (ls->cmd[1] == 1)
 	{
 		ft_printf("%c", ft_display_file_type(content.stat));
-		ft_printf("%s ", content.mod);
+		if (content.mod)
+			ft_printf("%s ", content.mod);
+		else
+			ft_printf("%s ", "XXXXXXXXX");
 		ft_printf("%5ld ", content.stat.st_nlink);
-		ft_printf("%-*s  ", ls->len_user, (content.pswd != NULL) ? content.pswd->pw_name : ft_itoa(content.stat.st_uid));
-		ft_printf("%-*s ", ls->len_group, (content.grp != NULL) ? content.grp->gr_name : ft_itoa(content.stat.st_gid));
+		if (content.pswd == NULL)
+			ft_printf("%-*s  ", ls->len_user, ft_itoa(content.stat.st_uid));
+		else
+			ft_printf("%-*s  ", ls->len_user, content.pswd->pw_name);
+		if (content.grp == NULL)
+			ft_printf("%-*s ", ls->len_group, ft_itoa(content.stat.st_gid));
+		else
+			ft_printf("%-*s ", ls->len_group, content.grp->gr_name);
 		ft_printf("%*lld ", ls->len_byte + 1,  content.stat.st_size);
 	    ft_display_timefile(content.stat.st_mtime);
 		free(content.mod);
