@@ -145,6 +145,7 @@ t_file_ls			ft_get_files(char *path, t_ls *ls)
 	struct dirent	*files;
 	DIR				*dir;
 	int				ok;
+	char			*filepath;
 
 	content.max = -1;
 	content.files = ft_malloc(sizeof(t_file_opt) * ft_files_count(path));
@@ -168,7 +169,9 @@ t_file_ls			ft_get_files(char *path, t_ls *ls)
 			content.files[content.max].type = files->d_type;
 			if (ls->cmd[1] == 1 || ls->cmd[8] == 1 || ls->cmd[4] == 1)
 			{
-				lstat(files->d_name, &(content.files[content.max].stat));
+				filepath = ft_joinpath(path, files->d_name);
+				lstat(filepath, &(content.files[content.max].stat));
+				free(filepath);
 				if (ls->cmd[1] == 1)
 				{
 					if (ft_pow(content.files[content.max].stat.st_size) > ls->len_byte)
