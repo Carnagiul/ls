@@ -220,20 +220,15 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 	    ft_display_timefile(content.stat.st_mtime);
 		free(content.mod);
 	}
-	if (ls->cmd[7] == 1)
+	if (ls->cmd[7] == 1 || ls->cmd[1] == 1)
 	{
-		if (content.type == 4)
-			ft_printf("@C%-*s@@", ls->max, content.name);
+		if (content.type == 4 && ls->cmd[7] == 1)
+			ft_printf("@C%s@@\n", content.name);
 		else
-			ft_printf("%-*s", ls->max, content.name);
+			ft_printf("%s\n", content.name);
 	}
 	else
 		ft_printf("%-*s", ls->max, content.name);
-	if (ls->cmd[7] == 1 || ls->cmd[1] == 1)
-	{
-		ft_printf("\n");
-	}
-
 }
 
 void				ft_ls_display(t_ls *ls, int id, t_file_ls content, char *path)
@@ -295,6 +290,7 @@ void				ft_create_file_ls(char *path, t_ls *ls, int id)
 
 	if (id == 1 && ls->cmd[2] == 1)
 		ft_printf("\n", path);
+	ls->max = 0;
 	content = ft_get_files(path, ls);
 	if (content.max <= 0)
 	{
@@ -304,7 +300,8 @@ void				ft_create_file_ls(char *path, t_ls *ls, int id)
 	}	
 	if (ls->cmd[1] == 1)
 		ft_printf("total %d\n", ft_count_stack(content));
-	ls->max = ft_filename_len_opt(content.max, content.files);
+	if (ls->cmd[1] != 1 && ls->cmd[7] != 1)
+		ls->max = ft_filename_len_opt(content.max, content.files);
 	ft_ls_display(ls, id, content, path);
 	ok = -1;
 	while (++ok < content.max)
