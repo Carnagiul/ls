@@ -1,5 +1,19 @@
 #include "../libft.h"
 
+typedef struct		s_ls_ppt
+{
+	char			*name;
+	int				type;
+	t_stat			stat;
+	struct s_ls_ppt	*next;
+}					t_ls_ppt;
+
+typedef struct		s_ls_app
+{
+	struct s_ls_ppt	**files;
+	int				count;
+}					t_ls_app;
+
 int		ft_filename_len_opt(int count, t_file_opt *file)
 {
 	int i;
@@ -209,13 +223,13 @@ void				ft_display_ls_file(t_ls *ls, t_file_opt content)
 		ft_printf("%s ", content.mod);
 		ft_printf("%5ld ", content.stat.st_nlink);
 		if (pswd == NULL)
-			ft_printf("%-*s  ", ls->len_user + 1, ft_itoa(content.stat.st_uid));
+			ft_printf("%-*s  ", ls->len_user, ft_itoa(content.stat.st_uid));
 		else
-			ft_printf("%-*s  ", ls->len_user + 1, pswd->pw_name);
+			ft_printf("%-*s  ", ls->len_user, pswd->pw_name);
 		if (content.grp == NULL)
-			ft_printf("%-*s  ", ls->len_group + 1, ft_itoa(content.stat.st_gid));
+			ft_printf("%-*s ", ls->len_group, ft_itoa(content.stat.st_gid));
 		else
-			ft_printf("%-*s  ", ls->len_group + 1, grp->gr_name);
+			ft_printf("%-*s ", ls->len_group, grp->gr_name);
 		ft_printf("%*lld ", ls->len_byte + 1,  content.stat.st_size);
 	    ft_display_timefile(content.stat.st_mtime);
 		free(content.mod);
@@ -344,6 +358,9 @@ void ft_ls(int argc, char **argv)
 	int		i;
 	t_ls	*ls;
 
+	t_ls_app	*app;
+	t_ls_ppt	*ppt;
+
 	i = 0;
 	ls = (t_ls *)ft_malloc(sizeof(t_ls));
 	ls->len_group = 0;
@@ -376,7 +393,14 @@ void ft_ls(int argc, char **argv)
 	}
 	if (ls->dir == NULL)
 		ls->dir = ft_strdup(".");
-	ft_create_file_ls(ft_strdup(ls->dir), ls, 0);
+	//ft_create_file_ls(ft_strdup(ls->dir), ls, 0);
+	app = ft_readdir(ls->dir, ls);
+	ppt = *(app->files);
+	while (ppt != NULL)
+	{
+		ft_printf("%s\n", ppt->name);
+		ppt = ppt->next;
+	}
 	free(ls->dir);
 	free(ls);
 }
