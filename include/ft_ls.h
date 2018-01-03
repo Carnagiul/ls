@@ -6,7 +6,8 @@
 
 typedef struct  passwd  t_pswd;
 typedef struct  group   t_group;
-
+typedef struct  stat   	t_stat;
+typedef struct	dirent	t_dir;
 typedef struct			s_ls
 {
 	int					cmd[9];

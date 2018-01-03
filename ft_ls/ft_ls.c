@@ -4,7 +4,7 @@ typedef struct		s_ls_ppt
 {
 	char			*name;
 	int				type;
-	t_stat			stat;
+	struct  stat	stat;
 	struct s_ls_ppt	*next;
 }					t_ls_ppt;
 
