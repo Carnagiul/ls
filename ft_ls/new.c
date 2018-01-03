@@ -23,11 +23,11 @@ t_ls_ppt		*create_ppt(t_dir *file, t_ls *ls, char *path, t_ls_app *app)
 	if (ls->cmd[0] == 0 && file->name[0] == '.')
 		return (NULL);
 	ret = ft_malloc(sizeof(*ret));
-	filepath = ft_joinpath(path, files->d_name);
+	filepath = ft_joinpath(path, file->d_name);
 	lstat(filepath, &(ret->stat));
 	free(filepath);
-	ret->name = ft_strdup(files->d_name);
-	ret->type = files->d_type;
+	ret->name = ft_strdup(file->d_name);
+	ret->type = file->d_type;
 	ret->next = NULL;
 	app->count++;
 	return (ret);
@@ -64,7 +64,7 @@ t_ls_app			*ft_readdir(char *path, t_ls *ls)
 	ret->files = NULL;
 	ret->count = 0;
 	while ((files = readdir(dir)) != NULL)
-		ft_list_push_front(path, files, ls, app);
+		ft_ppt_push_front(path, files, ls, app);
 	free(files);
 	closedir(dir);
 	return (ret);
