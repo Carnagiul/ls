@@ -20,7 +20,7 @@ t_ls_ppt		*create_ppt(t_dir *file, t_ls *ls, char *path, t_ls_app *app)
 	char		*filepath;
 
 
-	if (ls->cmd[0] == 0 && file->name[0] == '.')
+	if (ls->cmd[0] == 0 && file->d_name[0] == '.')
 		return (NULL);
 	ret = ft_malloc(sizeof(*ret));
 	filepath = ft_joinpath(path, file->d_name);
