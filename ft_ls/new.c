@@ -154,6 +154,8 @@ void			ft_readdir(char *path, t_ls *ls)
 	old = NULL;
 	while (list)
 	{
+		if (list->type == 4 && ls->cmd[2] == 1)
+			ft_readdir(ft_joinpath(path, list->name), ls);
 		if (old)
 		{
 			free(old->name);
@@ -161,8 +163,6 @@ void			ft_readdir(char *path, t_ls *ls)
 			old = NULL;
 		}
 		old = list;
-		if (list->type == 4 && ls->cmd[2] == 1)
-			ft_readdir(ft_joinpath(path, list->name), ls);
 		list = list->next;
 	}
 	if (old)
