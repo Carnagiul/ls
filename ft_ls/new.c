@@ -35,12 +35,11 @@ void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp)
 		app->files = temp;
 		return ;
 	}
-	while (mem_ppt != NULL)
+	while ((mem_ppt = mem_ppt->next) != NULL)
 	{
 		if (ft_strcmp(mem_ppt->name, temp->name) > 0)
 			break ;
 		old = mem_ppt;
-		mem_ppt = mem_ppt->next;
 	}
 	if (mem_ppt != NULL)
 	{
