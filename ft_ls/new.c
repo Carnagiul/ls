@@ -30,6 +30,12 @@ void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp, t_ls *ls)
 
 	mem = &(app->files);
 	mem_ppt = *mem;
+	if (ft_strcmp(mem_ppt->name, temp->name) > 0)
+	{
+		temp->next = app->files;
+		app->files = temp;
+		return ;
+	}
 	while (mem_ppt->next != NULL)
 	{
 		if (ft_strcmp(mem_ppt->name, temp->name) > 0)
@@ -56,8 +62,6 @@ void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
 	temp = create_ppt(file, ls, path, app);
 	if (temp)
 	{
-		ft_printf("test %s start\n", file->d_name);
-
 		if (app->files != NULL)
 		{
 			ft_ppt_trier(app, temp, ls);
@@ -66,8 +70,6 @@ void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
 		}
 		else
 			app->files = temp;
-		ft_printf("test %s end\n", file->d_name);
-
 	}
 }
 
