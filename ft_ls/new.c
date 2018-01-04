@@ -32,6 +32,7 @@ void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp, t_ls *ls)
 	mem = &(app->files);
 	mem_ppt = *mem;
 	old = NULL;
+	ft_printf("%s\n", temp->name);
 	if (ft_strcmp(mem_ppt->name, temp->name) > 0)
 	{
 		temp->next = app->files;
@@ -47,8 +48,6 @@ void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp, t_ls *ls)
 	}
 	if (mem_ppt->next != NULL)
 	{
-		if (old == NULL)
-			ft_printf("%S IS BEATCH\n", temp->name);
 		swap = old->next;
 		old->next = temp;
 		temp->next = swap;
