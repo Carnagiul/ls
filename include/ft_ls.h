@@ -48,6 +48,7 @@ typedef struct		s_ls_app
 {
 	struct s_ls_ppt	*files;
 	int				count;
+	int				max_name;
 }					t_ls_app;
 
 void					ft_ls(int argc, char **argv);
