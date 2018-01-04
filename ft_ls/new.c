@@ -15,7 +15,7 @@ t_ls_ppt		*create_ppt(t_dir *file, t_ls *ls, char *path, t_ls_app *app)
 	free(filepath);
 	if ((len = ft_strlen(file->d_name)) > app->max_name)
 		app->max_name = len;
-	ret->name = file->d_name;
+	ret->name = ft_strdup(file->d_name);
 	ret->type = file->d_type;
 	ret->next = NULL;
 	app->count++;
