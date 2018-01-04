@@ -32,7 +32,7 @@ void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
 			app->files = temp;
 		}
 		else
-			app->files = create_ppt(file, ls, path, app);
+			app->files = temp;
 	}
 }
 
