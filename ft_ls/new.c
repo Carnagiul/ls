@@ -1,19 +1,5 @@
 #include "../libft.h"
 
-typedef struct		s_ls_ppt
-{
-	char			*name;
-	int				type;
-	struct  stat	stat;
-	struct s_ls_ppt	*next;
-}					t_ls_ppt;
-
-typedef struct		s_ls_app
-{
-	struct s_ls_ppt	*files;
-	int				count;
-}					t_ls_app;
-
 t_ls_ppt		*create_ppt(t_dir *file, t_ls *ls, char *path, t_ls_app *app)
 {
 	t_ls_ppt	*ret;

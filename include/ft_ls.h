@@ -36,11 +36,27 @@ typedef struct			s_file_ls
 	int					max;
 }						t_file_ls;
 
+typedef struct		s_ls_ppt
+{
+	char			*name;
+	int				type;
+	struct  stat	stat;
+	struct s_ls_ppt	*next;
+}					t_ls_ppt;
+
+typedef struct		s_ls_app
+{
+	struct s_ls_ppt	**files;
+	int				count;
+}					t_ls_app;
+
 void					ft_ls(int argc, char **argv);
 void					ft_create_file_ls(char *path, t_ls *ls, int id);
 char					*ft_display_file_chmod(struct stat stat);
 char					ft_display_file_type(struct stat stat);
 void					ft_display_timefile(time_t timestamp);
+
+t_ls_app				*ft_readdir(char *path, t_ls *ls);
 
 
 #endif
