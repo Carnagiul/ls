@@ -169,8 +169,37 @@ void			ft_readdir(char *path, t_ls *ls)
 		free(old);
 		old = NULL;
 	}
-	if (ret)
-		free(ret);
-	if (path)
-		free(path);
 }
+/*
+typedef struct s_app_ls
+{
+	struct s_ls_files	*files;
+	struct s_app_ls		*dir;
+	struct s_app_ls		*next;
+	int					done;
+}
+
+void		thread(struct s_app_ls	*here)
+{
+	struct s_app_ls		*next;
+	struct s_app_ls		*data;
+
+	while (readfile)
+	{
+		if (ls->cmd[2] == 1 && can_break() == 1)
+		{
+			data = *(&(here->dir));
+			//IF THEN ELSE WHILE
+			data->next = ft_malloc(*here);
+			data->next->done = 1;
+			thread(data->next);
+		}
+	}
+	here->done = 0;
+	//FILE 0 456 999
+	//FILE 1 
+	//FILE 2
+	//FILE 3
+	//FILE 4
+
+}*/
