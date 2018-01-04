@@ -381,6 +381,6 @@ void ft_ls(int argc, char **argv)
 		ls->dir = ft_strdup(".");
 	//ft_create_file_ls(ft_strdup(ls->dir), ls, 0);
 	ft_readdir(ls->dir, ls);
-	free(ls->dir);
+	//free(ls->dir);
 	free(ls);
 }
