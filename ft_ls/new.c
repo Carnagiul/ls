@@ -168,9 +168,9 @@ void			ft_readdir(char *path, t_ls *ls)
 		free(old->name);
 		free(old);
 		old = NULL;
-	}/*
+	}
 	if (ret)
 		free(ret);
 	if (path)
-		free(path);*/
+		free(path);
 }
