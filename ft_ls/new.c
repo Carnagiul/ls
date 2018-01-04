@@ -32,6 +32,7 @@ void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
 	}
 	else
 		app->files = create_ppt(file, ls, path, app);
+	ft_printf("test free\n");
 }
 
 t_ls_app			*ft_readdir(char *path, t_ls *ls)
