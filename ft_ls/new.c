@@ -84,7 +84,7 @@ void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
 			app->files = temp;
 			return ;
 		}
-		ft_ppt_trier(app, temp);
+		ft_ppt_trier(app, temp, ls);
 	}
 }
 
