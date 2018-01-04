@@ -22,24 +22,45 @@ t_ls_ppt		*create_ppt(t_dir *file, t_ls *ls, char *path, t_ls_app *app)
 	return (ret);
 }
 
-void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp)
+int			can_break(t_ls_ppt *temp, t_ls_ppt *actual, t_ls *ls)
+{
+	if (ls->cmd[4])
+	{
+		if (actual->stat.st_mtime == temp->stat.st_mtime)
+		{
+			if ((ls->cmd[3]) ? actual->stat.st_mtimespec.tv_nsec > temp->stat.st_mtimespec.tv_nsec : actual->stat.st_mtimespec.tv_nsec < temp->stat.st_mtimespec.tv_nsec)
+				return (1);
+		}
+		if ((ls->cmd[3]) ? actual->stat.st_mtime > temp->stat.st_mtime : actual->stat.st_mtime < temp->stat.st_mtime)
+			return (1);
+	}
+	else
+	{
+		if ((ls->cmd[3] == 0) ? ft_strcmp(actual->name, temp->name) > 0 : ft_strcmp(actual->name, temp->name) < 0)
+			return (1);
+	}
+	return (0);
+}
+
+void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp, t_ls *ls)
 {
 	t_ls_ppt	*mem_ppt;
 	t_ls_ppt	*old;
 
 	mem_ppt = *(&(app->files));
-	old = NULL;
-	if (ft_strcmp(mem_ppt->name, temp->name) > 0)
+	if (can_break(temp, mem_ppt, ls) == 1)
 	{
 		temp->next = app->files;
 		app->files = temp;
 		return ;
 	}
-	while ((mem_ppt = mem_ppt->next) != NULL)
+	old = mem_ppt;
+	while (mem_ppt != NULL)
 	{
-		if (ft_strcmp(mem_ppt->name, temp->name) > 0)
+		if (can_break(temp, mem_ppt, ls) == 1)
 			break ;
 		old = mem_ppt;
+		mem_ppt = mem_ppt->next;
 	}
 	if (mem_ppt != NULL)
 	{
