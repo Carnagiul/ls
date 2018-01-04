@@ -104,8 +104,7 @@ void			ft_readdir(char *path, t_ls *ls)
 
 	dir = opendir(path);
 	if (!dir)
-		return (NULL);
-	ls->max_name = 0;
+		return ;
 	ret = ft_malloc(sizeof(*ret));
 	ret->files = NULL;
 	ret->count = 0;
@@ -118,7 +117,7 @@ void			ft_readdir(char *path, t_ls *ls)
 	list = *mem;
 	while (list)
 	{
-		ft_printf("%-*s", ls->max_name, list->name);
+		ft_printf("%-*s", ret->max_name, list->name);
 		list = list->next;
 	}
 	ft_printf("\n");
@@ -147,5 +146,4 @@ void			ft_readdir(char *path, t_ls *ls)
 		free(ret->files);
 	free(ret);
 	free(path);
-	return (ret);
 }
