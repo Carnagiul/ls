@@ -33,6 +33,12 @@ void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp, t_ls *ls)
 	mem_ppt = *mem;
 	old = NULL;
 	ft_printf("%s\n", temp->name);
+	if (!mem_ppt)
+	{
+		temp->next = app->files;
+		app->files = temp;
+		return ;
+	}
 	if (ft_strcmp(mem_ppt->name, temp->name) > 0)
 	{
 		temp->next = app->files;
