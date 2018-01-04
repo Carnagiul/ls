@@ -46,13 +46,11 @@ void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp, t_ls *ls)
 		old = mem_ppt;
 		mem_ppt = mem_ppt->next;
 	}
+	if (old == NULL)
+		old == mem_ppt;
 	if (mem_ppt->next != NULL)
 	{
-		if (old->next == NULL)
-		{
-			ft_printf("TEST %s\n", temp->name);
-		}
-		swap = old->next;
+=		swap = old->next;
 		old->next = temp;
 		temp->next = swap;
 	}
