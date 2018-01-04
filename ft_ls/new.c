@@ -119,10 +119,9 @@ void			ft_readdir(char *path, t_ls *ls)
 		printf("%s:\n", path);
 	while (list)
 	{
-		printf("%s\t", list->name);
+		printf("%s\n", list->name);
 		list = list->next;
 	}
-	printf("\n");
 	list = *mem;
 	old = NULL;
 	while (list)
