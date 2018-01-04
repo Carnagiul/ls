@@ -45,7 +45,7 @@ void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp, t_ls *ls)
 		old = mem_ppt;
 		mem_ppt = mem_ppt->next;
 	}
-	if (old != NULL)
+	if (old->next != NULL)
 	{
 		/*
 			swap = mem_ppt->next;
