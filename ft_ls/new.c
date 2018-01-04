@@ -116,10 +116,10 @@ void			ft_readdir(char *path, t_ls *ls)
 	mem = &(ret->files);
 	list = *mem;
 	if (ls->cmd[2] == 1)
-		ft_printf("%s:\n", path);
+		printf("%s:\n", path);
 	while (list)
 	{
-		ft_printf("%-*s ", ret->max_name, list->name);
+		printf("%s\t", ret->max_name, list->name);
 		list = list->next;
 	}
 	ft_printf("\n");
