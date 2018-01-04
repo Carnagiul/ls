@@ -142,8 +142,4 @@ void			ft_readdir(char *path, t_ls *ls)
 		free(old->next);
 		free(old);
 	}
-	if (ret->files)
-		free(ret->files);
-	free(ret);
-	free(path);
 }
