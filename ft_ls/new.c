@@ -119,7 +119,7 @@ void			ft_readdir(char *path, t_ls *ls)
 		ft_printf("%s:\n", path);
 	while (list)
 	{
-		ft_printf("%-*s", 100, list->name);
+		ft_printf("%-*s ", ret->max_name, list->name);
 		list = list->next;
 	}
 	ft_printf("\n");
