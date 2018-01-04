@@ -44,7 +44,7 @@ void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp, t_ls *ls)
 	}
 	else
 		mem_ppt->next = temp;
-	(void *)ls;
+	(void)ls;
 	return ;
 
 }
