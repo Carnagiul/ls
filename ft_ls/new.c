@@ -39,7 +39,7 @@ void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp, t_ls *ls)
 		app->files = temp;
 		return ;
 	}
-	while (mem_ppt->next != NULL)
+	while (mem_ppt != NULL)
 	{
 		if (ft_strcmp(mem_ppt->name, temp->name) > 0)
 			break ;
