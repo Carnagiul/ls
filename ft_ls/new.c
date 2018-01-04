@@ -47,6 +47,7 @@ t_ls_app			*ft_readdir(char *path, t_ls *ls)
 	ret = ft_malloc(sizeof(*ret));
 	ret->files = NULL;
 	ret->count = 0;
+	ft_printf("ici?\n");
 	while ((files = readdir(dir)) != NULL)
 		ft_ppt_push_front(path, files, ls, ret);
 	ft_printf("test\n");
