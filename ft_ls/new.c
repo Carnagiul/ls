@@ -28,15 +28,20 @@ int			can_break(t_ls_ppt *temp, t_ls_ppt *actual, t_ls *ls)
 	{
 		if (actual->stat.st_mtime == temp->stat.st_mtime)
 		{
-			if ((ls->cmd[3]) ? actual->stat.st_mtimespec.tv_nsec > temp->stat.st_mtimespec.tv_nsec : actual->stat.st_mtimespec.tv_nsec < temp->stat.st_mtimespec.tv_nsec)
+			if ((ls->cmd[3]) ? actual->stat.st_mtimespec.tv_nsec >
+				temp->stat.st_mtimespec.tv_nsec :
+				actual->stat.st_mtimespec.tv_nsec <
+				temp->stat.st_mtimespec.tv_nsec)
 				return (1);
 		}
-		if ((ls->cmd[3]) ? actual->stat.st_mtime > temp->stat.st_mtime : actual->stat.st_mtime < temp->stat.st_mtime)
+		if ((ls->cmd[3]) ? actual->stat.st_mtime > temp->stat.st_mtime
+			: actual->stat.st_mtime < temp->stat.st_mtime)
 			return (1);
 	}
 	else
 	{
-		if ((ls->cmd[3] == 0) ? ft_strcmp(actual->name, temp->name) > 0 : ft_strcmp(actual->name, temp->name) < 0)
+		if ((ls->cmd[3] == 0) ? ft_strcmp(actual->name, temp->name) > 0 :
+			ft_strcmp(actual->name, temp->name) < 0)
 			return (1);
 	}
 	return (0);
@@ -88,16 +93,19 @@ void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
 	}
 }
 
-t_ls_app			*ft_readdir(char *path, t_ls *ls)
+void			ft_readdir(char *path, t_ls *ls)
 {
 	t_ls_app		*ret;
-	t_ls_ppt		*get;
+	t_ls_ppt		**mem;
+	t_ls_ppt		*list;
+	t_ls_ppt		*old;
 	t_dir			*files;
 	DIR				*dir;
 
 	dir = opendir(path);
 	if (!dir)
 		return (NULL);
+	ls->max_name = 0;
 	ret = ft_malloc(sizeof(*ret));
 	ret->files = NULL;
 	ret->count = 0;
@@ -106,5 +114,38 @@ t_ls_app			*ft_readdir(char *path, t_ls *ls)
 		ft_ppt_push_front(path, files, ls, ret);
 	free(files);
 	closedir(dir);
+	mem = &(ret->files);
+	list = *mem;
+	while (list)
+	{
+		ft_printf("%-*s", ls->max_name, list->name);
+		list = list->next;
+	}
+	ft_printf("\n");
+	list = *mem;
+	old = NULL;
+	while (list)
+	{
+		if (old != NULL)
+		{
+			free(old->name);
+			free(old->next);
+			free(old);
+		}
+		old = list;
+		if (list->type == 4 && ls->cmd[2] == 1)
+			ft_readdir(ft_joinpath(path, list->name), ls);
+		list = list->next;
+	}
+	if (old != NULL)
+	{
+		free(old->name);
+		free(old->next);
+		free(old);
+	}
+	if (ret->files)
+		free(ret->files);
+	free(ret);
+	free(path);
 	return (ret);
 }

@@ -58,7 +58,6 @@ char					ft_display_file_type(struct stat stat);
 void					ft_display_timefile(time_t timestamp);
 char					*ft_joinpath(char *s1, char *s2);
 
-t_ls_app				*ft_readdir(char *path, t_ls *ls);
-
+void			ft_readdir(char *path, t_ls *ls)
 
 #endif
