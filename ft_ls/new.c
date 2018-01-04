@@ -22,23 +22,13 @@ t_ls_ppt		*create_ppt(t_dir *file, t_ls *ls, char *path, t_ls_app *app)
 	return (ret);
 }
 
-void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp, t_ls *ls)
+void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp)
 {
-	t_ls_ppt	**mem;
 	t_ls_ppt	*mem_ppt;
-	t_ls_ppt	*swap;
 	t_ls_ppt	*old;
 
-	mem = &(app->files);
-	mem_ppt = *mem;
+	mem_ppt = *(&(app->files));
 	old = NULL;
-	ft_printf("%s\n", temp->name);
-	if (!mem_ppt)
-	{
-		temp->next = app->files;
-		app->files = temp;
-		return ;
-	}
 	if (ft_strcmp(mem_ppt->name, temp->name) > 0)
 	{
 		temp->next = app->files;
@@ -54,15 +44,11 @@ void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp, t_ls *ls)
 	}
 	if (mem_ppt != NULL)
 	{
-		swap = mem_ppt;
 		old->next = temp;
-		temp->next = swap;
+		temp->next = mem_ppt;
 	}
 	else
 		old->next = temp;
-	(void)ls;
-	return ;
-
 }
 
 void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
@@ -72,10 +58,13 @@ void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
 	temp = create_ppt(file, ls, path, app);
 	if (temp)
 	{
-		//if (app->files != NULL)
-			ft_ppt_trier(app, temp, ls);
-		//else
-		//	app->files = temp;
+		if (app->files == NULL)
+		{
+			temp->next = app->files;
+			app->files = temp;
+			return ;
+		}
+		ft_ppt_trier(app, temp, ls);
 	}
 }
 
