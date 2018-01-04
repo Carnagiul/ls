@@ -52,6 +52,7 @@ void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp, t_ls *ls)
 			mem_ppt->next = temp;
 			temp->next = swap;		
 		*/
+		ft_printf("%s replace by %s\n", old->name, temp->name);
 		swap = old->next;
 		old->next = temp;
 		temp->next = swap;
