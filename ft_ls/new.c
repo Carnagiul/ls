@@ -10,7 +10,7 @@ typedef struct		s_ls_ppt
 
 typedef struct		s_ls_app
 {
-	struct s_ls_ppt	**files;
+	struct s_ls_ppt	*files;
 	int				count;
 }					t_ls_app;
 
@@ -38,15 +38,14 @@ void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
 	t_list	*temp;
 	t_list	**list;
 
-	list = app->files;
-	if (*list)
+	if (app->files != NULL)
 	{
 		temp = create_ppt(file, ls, path, app);
-		temp->next = *list;
-		*list = temp;
+		temp->next = app->files;
+		app->files = temp;
 	}
 	else
-		*list = create_ppt(file, ls, path, app);
+		app->files = create_ppt(file, ls, path, app);
 }
 
 t_ls_app			*ft_readdir(char *path, t_ls *ls)
@@ -64,6 +63,7 @@ t_ls_app			*ft_readdir(char *path, t_ls *ls)
 	ret->count = 0;
 	while ((files = readdir(dir)) != NULL)
 		ft_ppt_push_front(path, files, ls, ret);
+	ft_printf("test\n");
 	free(files);
 	closedir(dir);
 	return (ret);
