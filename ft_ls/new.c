@@ -117,16 +117,34 @@ void			ft_readdir(char *path, t_ls *ls)
 	list = *mem;
 	if (ls->cmd[2] == 1)
 		printf("%s:\n", path);
+	*mem = NULL;
 	while (list)
 	{
+		old = *mem;
 		printf("%s\n", list->name);
-		list = list->next;
+		if (list->type == 4 && ls->cmd[2] == 1)
+		{
+			while (old->next != NULL)
+				old = old->next;
+			if (old)
+			{
+				old->next = list;
+				list = list->next;
+				old->next->next = NULL;
+			}
+			else
+			{
+				*mem = list;
+				list = list->next;
+				*mem->next = NULL;			
+			}
+		}
+		else
+			list = list->next;
 	}
 	list = *mem;
-	old = NULL;
 	while (list)
 	{
-		old = list;
 		if (list->type == 4 && ls->cmd[2] == 1)
 			ft_readdir(ft_joinpath(path, list->name), ls);
 		list = list->next;
