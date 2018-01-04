@@ -384,7 +384,7 @@ void ft_ls(int argc, char **argv)
 	ppt = app->files;
 	while (ppt != NULL)
 	{
-		ft_printf("%s\n", ppt->name);
+		ft_printf("%-*s ", app->max_name, ppt->name);
 		ppt = ppt->next;
 	}
 	free(ls->dir);
