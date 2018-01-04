@@ -389,6 +389,4 @@ void ft_ls(int argc, char **argv)
 	}
 	free(ls->dir);
 	free(ls);
-	while (1)
-		;
 }
