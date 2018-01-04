@@ -54,9 +54,10 @@ void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
 	t_ls_ppt	*temp;
 
 	temp = create_ppt(file, ls, path, app);
-	ft_printf("test \n");
 	if (temp)
 	{
+		ft_printf("test %s start\n", file->d_name);
+
 		if (app->files != NULL)
 		{
 			ft_ppt_trier(app, temp, ls);
@@ -65,6 +66,8 @@ void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
 		}
 		else
 			app->files = temp;
+		ft_printf("test %s end\n", file->d_name);
+
 	}
 }
 
