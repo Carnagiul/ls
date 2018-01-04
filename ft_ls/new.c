@@ -136,7 +136,7 @@ void			ft_readdir(char *path, t_ls *ls)
 			{
 				*mem = list;
 				list = list->next;
-				*mem->next = NULL;			
+				(*mem)->next = NULL;			
 			}
 		}
 		else
