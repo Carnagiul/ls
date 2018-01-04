@@ -47,20 +47,12 @@ void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp, t_ls *ls)
 	}
 	if (mem_ppt->next != NULL)
 	{
-		/*
-			swap = mem_ppt->next;
-			mem_ppt->next = temp;
-			temp->next = swap;		
-		*/
-		ft_printf("%s replace by %s\n", old->name, temp->name);
 		swap = old->next;
 		old->next = temp;
 		temp->next = swap;
 	}
 	else
-	{
 		mem_ppt->next = temp;
-	}
 	(void)ls;
 	return ;
 
@@ -74,11 +66,7 @@ void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
 	if (temp)
 	{
 		if (app->files != NULL)
-		{
 			ft_ppt_trier(app, temp, ls);
-			//temp->next = app->files;
-			//app->files = temp;
-		}
 		else
 			app->files = temp;
 	}
