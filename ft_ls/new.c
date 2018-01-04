@@ -50,7 +50,7 @@ void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp, t_ls *ls)
 	{
 		if (old->next == NULL)
 		{
-			ft_printf("%s\n", temp->name);
+			ft_printf("TEST %s\n", temp->name);
 		}
 		swap = old->next;
 		old->next = temp;
