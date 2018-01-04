@@ -56,7 +56,6 @@ t_ls_app			*ft_readdir(char *path, t_ls *ls)
 	t_dir			*files;
 	DIR				*dir;
 
-
 	dir = opendir(path);
 	if (!dir)
 		return (NULL);
