@@ -10,9 +10,9 @@ t_ls_ppt		*create_ppt(t_dir *file, t_ls *ls, char *path, t_ls_app *app)
 	if (ls->cmd[0] == 0 && file->d_name[0] == '.')
 		return (NULL);
 	ret = ft_malloc(sizeof(*ret));
-//	filepath = ft_joinpath(path, file->d_name);
-	//lstat(filepath, &(ret->stat));
-//	free(filepath);
+	filepath = ft_joinpath(path, file->d_name);
+	lstat(filepath, &(ret->stat));
+	free(filepath);
 	if ((len = ft_strlen(file->d_name)) > app->max_name)
 		app->max_name = len;
 	ret->name = ft_strdup(file->d_name);
@@ -121,7 +121,7 @@ void			ft_readdir(char *path, t_ls *ls)
 	while (list)
 	{
 		printf("%s\n", list->name);
-		if (list->type == 4 && ls->cmd[2] == 1)
+		/*if (list->type == 4 && ls->cmd[2] == 1)
 		{
 			old = *mem;
 			if (old)
@@ -139,7 +139,7 @@ void			ft_readdir(char *path, t_ls *ls)
 				(*mem)->next = NULL;			
 			}
 		}
-		else
+		else*/
 			list = list->next;
 	}
 	list = *mem;
@@ -149,4 +149,32 @@ void			ft_readdir(char *path, t_ls *ls)
 			ft_readdir(ft_joinpath(path, list->name), ls);
 		list = list->next;
 	}
+	mem = &(ret->files);
+	list = *mem;
+	old = NULL;
+	while (list)
+	{
+		if (old)
+		{
+			free(old->name);
+			free(old);
+			old = NULL;
+		}
+		old = list;
+		if (list->type == 4 && ls->cmd[2] == 1)
+			ft_readdir(ft_joinpath(path, list->name), ls);
+		list = list->next;
+	}
+	if (old)
+	{
+		free(old->name);
+		free(old);
+		old = NULL;
+	}
+	if (ret->files)
+		free(ret->files);
+	if (ret)
+		free(ret);
+	if (path)
+		free(path);
 }
