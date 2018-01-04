@@ -46,7 +46,7 @@ typedef struct		s_ls_ppt
 
 typedef struct		s_ls_app
 {
-	struct s_ls_ppt	**files;
+	struct s_ls_ppt	*files;
 	int				count;
 }					t_ls_app;
 
@@ -55,6 +55,7 @@ void					ft_create_file_ls(char *path, t_ls *ls, int id);
 char					*ft_display_file_chmod(struct stat stat);
 char					ft_display_file_type(struct stat stat);
 void					ft_display_timefile(time_t timestamp);
+char					*ft_joinpath(char *s1, char *s2);
 
 t_ls_app				*ft_readdir(char *path, t_ls *ls);
 

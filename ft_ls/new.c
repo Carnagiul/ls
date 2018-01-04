@@ -22,7 +22,6 @@ t_ls_ppt		*create_ppt(t_dir *file, t_ls *ls, char *path, t_ls_app *app)
 void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
 {
 	t_ls_ppt	*temp;
-	t_ls_ppt	*list;
 
 	temp = create_ppt(file, ls, path, app);
 	if (temp)
