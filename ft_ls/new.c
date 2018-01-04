@@ -12,7 +12,7 @@ t_ls_ppt		*create_ppt(t_dir *file, t_ls *ls, char *path, t_ls_app *app)
 	filepath = ft_joinpath(path, file->d_name);
 	lstat(filepath, &(ret->stat));
 	free(filepath);
-	ret->name = ft_strdup(file->d_name);
+	ret->name = file->d_name;
 	ret->type = file->d_type;
 	ret->next = NULL;
 	app->count++;
