@@ -141,14 +141,14 @@ void			ft_readdir(char *path, t_ls *ls)
 		}
 		else*/
 			list = list->next;
-	}
+	}/*
 	list = *mem;
 	while (list)
 	{
 		if (list->type == 4 && ls->cmd[2] == 1)
 			ft_readdir(ft_joinpath(path, list->name), ls);
 		list = list->next;
-	}
+	}*/
 	mem = &(ret->files);
 	list = *mem;
 	old = NULL;
