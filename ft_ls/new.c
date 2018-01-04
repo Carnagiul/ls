@@ -33,7 +33,6 @@ void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
 		}
 		else
 			app->files = create_ppt(file, ls, path, app);
-		ft_printf("test free\n");
 	}
 }
 
@@ -50,10 +49,8 @@ t_ls_app			*ft_readdir(char *path, t_ls *ls)
 	ret = ft_malloc(sizeof(*ret));
 	ret->files = NULL;
 	ret->count = 0;
-	ft_printf("ici?\n");
 	while ((files = readdir(dir)) != NULL)
 		ft_ppt_push_front(path, files, ls, ret);
-	ft_printf("test\n");
 	free(files);
 	closedir(dir);
 	return (ret);
