@@ -27,9 +27,11 @@ void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp, t_ls *ls)
 	t_ls_ppt	**mem;
 	t_ls_ppt	*mem_ppt;
 	t_ls_ppt	*swap;
+	t_ls_ppt	*old;
 
 	mem = &(app->files);
 	mem_ppt = *mem;
+	old = NULL;
 	if (ft_strcmp(mem_ppt->name, temp->name) > 0)
 	{
 		temp->next = app->files;
@@ -40,18 +42,19 @@ void		ft_ppt_trier(t_ls_app *app, t_ls_ppt *temp, t_ls *ls)
 	{
 		if (ft_strcmp(mem_ppt->name, temp->name) > 0)
 			break ;
+		old = mem_ppt;
 		mem_ppt = mem_ppt->next;
 	}
-	if (mem_ppt != NULL)
+	if (old != NULL)
 	{
 		/*
-		swap = mem_ppt->next;
-		mem_ppt->next = temp;
-		temp->next = swap;		
+			swap = mem_ppt->next;
+			mem_ppt->next = temp;
+			temp->next = swap;		
 		*/
-		swap = temp->next;
-		temp->next = mem_ppt;
-		mem_ppt->next = swap;		
+		swap = old->next;
+		old->next = temp;
+		temp->next = swap;
 	}
 	else
 		mem_ppt->next = temp;
