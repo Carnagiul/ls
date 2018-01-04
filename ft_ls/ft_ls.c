@@ -382,6 +382,7 @@ void ft_ls(int argc, char **argv)
 	//ft_create_file_ls(ft_strdup(ls->dir), ls, 0);
 	app = ft_readdir(ls->dir, ls);
 	ppt = app->files;
+	ft_printf("\n\n\n", ppt->name);
 	while (ppt != NULL)
 	{
 		ft_printf("%s\n", ppt->name);
