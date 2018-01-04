@@ -64,7 +64,7 @@ t_ls_app			*ft_readdir(char *path, t_ls *ls)
 	ret->files = NULL;
 	ret->count = 0;
 	while ((files = readdir(dir)) != NULL)
-		ft_ppt_push_front(path, files, ls, app);
+		ft_ppt_push_front(path, files, ls, ret);
 	free(files);
 	closedir(dir);
 	return (ret);
