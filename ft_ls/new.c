@@ -115,6 +115,7 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 	closedir(dir);
 	mem = &(ret->files);
 	list = *mem;
+	*mem = NULL;
 	if (ls->cmd[2] == 1)
 		printf("%s:\n", path);
 	while (list)
