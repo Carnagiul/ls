@@ -144,7 +144,7 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 	DIR				*dir;
 
 	if (ls->cmd[2] == 1)
-		printf("%s:\n", path);
+		ft_printf("%s:\n", path);
 	dir = opendir(path);
 	if (!dir)
 		return ((void)ft_printf("Cannot open the directory\n"));
