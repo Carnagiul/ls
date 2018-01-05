@@ -120,28 +120,9 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 	while (list)
 	{
 		printf("%s\n", list->name);
-		if (list->type == 4 && ls->cmd[2] == 1)
-		{
-			old = *(&mem);
-			if (old)
-			{
-				while (old->next != NULL)
-					old = old->next;
-				old->next = list;
-				list = list->next;
-				old->next->next = NULL;
-			}
-			else
-			{
-				mem = list;
-				list = list->next;
-				mem->next = NULL;			
-			}
-		}
-		else
-			list = list->next;
+		list = list->next;
 	}
-	list = *(&mem);
+	list = *(&(ret->files));
 	while (list)
 	{
 		if (list->type == 4 && ls->cmd[2] == 1)
