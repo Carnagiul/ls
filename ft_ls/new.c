@@ -115,7 +115,7 @@ void			ft_display(t_ls_app *data, t_ls *ls)
 	while (list)
 	{
 		if (ls->cmd[8] == 1)
-			printf("%ld ", list->stat.st_ino);
+			printf("%llu ", list->stat.st_ino);
 		if (ls->cmd[1])
 		{
 			printf("%c", ft_display_file_type(list->stat));
