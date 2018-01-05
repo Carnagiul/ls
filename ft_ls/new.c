@@ -10,9 +10,9 @@ t_ls_ppt		*create_ppt(t_dir *file, t_ls *ls, char *path, t_ls_app *app)
 	if (ls->cmd[0] == 0 && file->d_name[0] == '.')
 		return (NULL);
 	ret = ft_malloc(sizeof(*ret));
-	filepath = ft_joinpath(path, file->d_name);
-	lstat(filepath, &(ret->stat));
-	free(filepath);
+	//filepath = ft_joinpath(path, file->d_name);
+	//lstat(filepath, &(ret->stat));
+	//free(filepath);
 	if ((len = ft_strlen(file->d_name)) > app->max_name)
 		app->max_name = len;
 	ret->name = ft_strdup(file->d_name);
