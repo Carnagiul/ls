@@ -145,6 +145,20 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 	dir = opendir(path);
 	if (!dir)
 		return ;
+	if (dir == EACCES)
+		exit(ft_printf("%s:\n@R%s@@\n", path, "Permission Denied"));
+	if (dir == ENOTDIR)
+		exit(ft_printf("%s:\n@R%s@@\n", path, "Not a Directory"));
+	if (dir == ENOTDIR)
+		exit(ft_printf("%s:\n@R%s@@\n", path, "Out of Memory"));
+	if (dir == ENOENT)
+		exit(ft_printf("%s:\n@R%s@@\n", path, "Not a Directory of FileName is NULL"));
+	if (dir == ENFILE)
+		exit(ft_printf("%s:\n@R%s@@\n", path, "Too Many Directory Open"));
+	if (dir == EMFILE)
+		exit(ft_printf("%s:\n@R%s@@\n", path, "Too Many Descriptor"));
+	if (dir == EBADF)
+		exit(ft_printf("%s:\n@R%s@@\n", path, "FileDescriptor can't be read"));
 	ret->files = NULL;
 	ret->count = 0;
 	ret->max_name = 0;
