@@ -150,15 +150,9 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 		ft_ppt_push_front(path, files, ls, ret);
 	free(files);
 	closedir(dir);
-	list = *(&(ret->files));
-	mem = NULL;
 	if (ls->cmd[2] == 1)
 		printf("%s:\n", path);
-	while (list)
-	{
-		ft_display(list, ls);
-		list = list->next;
-	}
+	ft_display(ret, ls);
 	list = *(&(ret->files));
 	while (list)
 	{
