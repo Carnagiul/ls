@@ -29,12 +29,15 @@ char				*ft_get_file_user(struct stat stat)
 	char			*ret;
 	t_pswd			*pswd;
 
+	ret = NULL;
 	pswd = getpwuid(stat.st_uid);
 	if (pswd)
 		ret = ft_strdup(pswd->pw_name);
 	else
 		ret = ft_itoa(stat.st_uid);
-	return (ret);
+	if (ret != NULL)
+		return (ret);
+	return (ft_strdup("none"));
 }
 
 char				*ft_get_file_group(struct stat stat)
@@ -42,12 +45,15 @@ char				*ft_get_file_group(struct stat stat)
 	char			*ret;
 	t_group			*grp;
 
+	ret = NULL;
 	grp = getgrgid(stat.st_gid);
 	if (grp)
 		ret = ft_strdup(grp->gr_name);
 	else
 		ret = ft_itoa(stat.st_gid);
-	return (ret);
+	if (ret != NULL)
+		return (ret);
+	return (ft_strdup("none"));
 }
 
 char				ft_display_file_type(struct stat stat)
