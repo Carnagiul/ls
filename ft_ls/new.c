@@ -185,3 +185,5 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 	}
 	free(path);
 }
+
+
