@@ -165,7 +165,7 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 	{
 		if (list->type == 4 && ls->cmd[2] == 1 && ft_strcmp(list->name, ".") != 0 && ft_strcmp(list->name, "..") != 0)
 		{
-			old_ret = *(&ret);
+			old_ret = *(&(ret->next));
 			if (old_ret)
 			{
 				while (old_ret->next != NULL)
