@@ -149,6 +149,7 @@ t_ls_app 			*ft_readdir(char *path, t_ls *ls)
 	dir = opendir(path);
 	if (dir == NULL)
 	{
+		free(path);
 		printf("Cannot open the directory\n");
 		return (NULL);
 	}
