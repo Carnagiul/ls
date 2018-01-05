@@ -1,4 +1,5 @@
 #include "../libft.h"
+#include <errno.h>
 
 t_ls_ppt		*create_ppt(t_dir *file, t_ls *ls, char *path, t_ls_app *app)
 {
