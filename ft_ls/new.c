@@ -115,20 +115,20 @@ void			ft_display(t_ls_app *data, t_ls *ls)
 	while (list)
 	{
 		if (ls->cmd[8] == 1)
-			ft_printf("%ld ", list->stat.st_ino);
+			printf("%ld ", list->stat.st_ino);
 		if (ls->cmd[1])
 		{
-			ft_printf("%c", ft_display_file_type(list->stat));
-			ft_printf("%s ", list->mod);
-			ft_printf("USER=%-*s ", data->max_pwd, list->pwd);
-			ft_printf("GROP=%-*s ", data->max_grp, list->grp);
+			printf("%c", ft_display_file_type(list->stat));
+			printf("%s ", list->mod);
+			printf("USER=%-*s ", data->max_pwd, list->pwd);
+			printf("GROP=%-*s ", data->max_grp, list->grp);
 		}
 		if (ls->cmd[1] || ls->cmd[6])
-			ft_printf("%s\n", list->name);
+			printf("%s\n", list->name);
 		else if (ls->cmd[5])
-			ft_printf("%-*s ", data->max_name, list->name);
+			printf("%-*s ", data->max_name, list->name);
 		else
-			ft_printf("%s\t", list->name);
+			printf("%s\t", list->name);
 		list = list->next;
 	}
 }
@@ -144,10 +144,10 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 	DIR				*dir;
 
 	if (ls->cmd[2] == 1)
-		ft_printf("%s:\n", path);
+		printf("%s:\n", path);
 	dir = opendir(path);
 	if (!dir)
-		return ((void)ft_printf("Cannot open the directory\n"));
+		return ((void)printf("Cannot open the directory\n"));
 	ret->files = NULL;
 	ret->count = 0;
 	ret->max_name = 0;
@@ -159,7 +159,7 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 	free(files);
 	closedir(dir);
 	ft_display(ret, ls);
-	ft_printf("\n");
+	printf("\n");
 	list = *(&(ret->files));
 	while (list)
 	{
@@ -171,12 +171,12 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 				while (old_ret->next != NULL)
 					old_ret = old_ret->next;
 				old_ret->next = ft_malloc(sizeof(*ret));
-				ft_printf("\n");
+				printf("\n");
 				ft_readdir(ft_joinpath(path, list->name), ls, old_ret->next);
 			}
 			else
 			{
-				ft_printf("\n");
+				printf("\n");
 				ret->next = ft_malloc(sizeof(*ret));
 				ft_readdir(ft_joinpath(path, list->name), ls, ret->next);
 			}
