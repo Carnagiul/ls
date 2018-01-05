@@ -147,19 +147,19 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 	if (!dir)
 		return ;
 	if (errno == EACCES)
-		exit(ft_printf("%s:\n@R%s@@\n", path, "Permission Denied"));
+		return (ft_printf("%s:\n@R%s@@\n", path, "Permission Denied"));
 	if (errno == ENOTDIR)
-		exit(ft_printf("%s:\n@R%s@@\n", path, "Not a Directory"));
+		return (ft_printf("%s:\n@R%s@@\n", path, "Not a Directory"));
 	if (errno == ENOTDIR)
-		exit(ft_printf("%s:\n@R%s@@\n", path, "Out of Memory"));
+		return (ft_printf("%s:\n@R%s@@\n", path, "Out of Memory"));
 	if (errno == ENOENT)
-		exit(ft_printf("%s:\n@R%s@@\n", path, "Not a Directory of FileName is NULL"));
+		return (ft_printf("%s:\n@R%s@@\n", path, "Not a Directory of FileName is NULL"));
 	if (errno == ENFILE)
-		exit(ft_printf("%s:\n@R%s@@\n", path, "Too Many Directory Open"));
+		return (ft_printf("%s:\n@R%s@@\n", path, "Too Many Directory Open"));
 	if (errno == EMFILE)
-		exit(ft_printf("%s:\n@R%s@@\n", path, "Too Many Descriptor"));
+		return (ft_printf("%s:\n@R%s@@\n", path, "Too Many Descriptor"));
 	if (errno == EBADF)
-		exit(ft_printf("%s:\n@R%s@@\n", path, "FileDescriptor can't be read"));
+		return (ft_printf("%s:\n@R%s@@\n", path, "FileDescriptor can't be read"));
 	ret->files = NULL;
 	ret->count = 0;
 	ret->max_name = 0;
