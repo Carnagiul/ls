@@ -165,7 +165,7 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 	{
 		if (list->type == 4 && ls->cmd[2] == 1 && ft_strcmp(list->name, ".") != 0 && ft_strcmp(list->name, "..") != 0)
 		{
-			old_ret = *(&(ret->next));
+			old_ret = *(&ret);
 			if (old_ret)
 			{
 				while (old_ret->next != NULL)
@@ -173,13 +173,13 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 				old_ret->next = ft_malloc(sizeof(*ret));
 				printf("\n");
 				ft_readdir(ft_joinpath(path, list->name), ls, old_ret->next);
-			}
+			}/*
 			else
 			{
 				printf("\n");
 				ret->next = ft_malloc(sizeof(*ret));
 				ft_readdir(ft_joinpath(path, list->name), ls, ret->next);
-			}
+			}*/
 		}
 		list = list->next;
 	}
