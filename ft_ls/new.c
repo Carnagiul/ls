@@ -156,7 +156,7 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 		printf("%s:\n", path);
 	while (list)
 	{
-		printf("%s\n", list->name);
+		ft_display(list, ls);
 		list = list->next;
 	}
 	list = *(&(ret->files));
