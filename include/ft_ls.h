@@ -49,6 +49,7 @@ typedef struct		s_ls_app
 	struct s_ls_ppt	*files;
 	int				count;
 	int				max_name;
+	struct s_ls_app	*next;
 }					t_ls_app;
 
 void					ft_ls(int argc, char **argv);
@@ -58,6 +59,6 @@ char					ft_display_file_type(struct stat stat);
 void					ft_display_timefile(time_t timestamp);
 char					*ft_joinpath(char *s1, char *s2);
 
-void					ft_readdir(char *path, t_ls *ls);
+void					ft_readdir(char *path, t_ls *ls, t_ls_app *ret);
 
 #endif
