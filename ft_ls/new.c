@@ -118,7 +118,7 @@ void			ft_display(t_ls_app *data, t_ls *ls)
 		if (ls->cmd[1])
 			ft_printf("%c%s %-*s %-*s ", ft_display_file_type(list->stat), list->mod, data->max_pwd, list->pwd, data->max_grp, list->grp);
 		if (ls->cmd[1] || ls->cmd[6])
-			ft_printf("%s\n", data->name);
+			ft_printf("%s\n", list->name);
 		else if (ls->cmd[5])
 			ft_printf("%-*s ", data->max_name, list->name);
 		else
