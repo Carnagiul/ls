@@ -143,23 +143,11 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 	t_dir			*files;
 	DIR				*dir;
 
+	if (ls->cmd[2] == 1)
+		printf("%s:\n", path);
 	dir = opendir(path);
 	if (!dir)
-		return ;
-	if (errno == EACCES)
-		return ((void)ft_printf("%s:\n@R%s@@\n", path, "Permission Denied"));
-	if (errno == ENOTDIR)
-		return ((void)ft_printf("%s:\n@R%s@@\n", path, "Not a Directory"));
-	if (errno == ENOTDIR)
-		return ((void)ft_printf("%s:\n@R%s@@\n", path, "Out of Memory"));
-	if (errno == ENOENT)
-		return ((void)ft_printf("%s:\n@R%s@@\n", path, "Not a Directory of FileName is NULL"));
-	if (errno == ENFILE)
-		return ((void)ft_printf("%s:\n@R%s@@\n", path, "Too Many Directory Open"));
-	if (errno == EMFILE)
-		return ((void)ft_printf("%s:\n@R%s@@\n", path, "Too Many Descriptor"));
-	if (errno == EBADF)
-		return ((void)ft_printf("%s:\n@R%s@@\n", path, "FileDescriptor can't be read"));
+		return ((void)ft_printf("Cannot open the directory\n"));
 	ret->files = NULL;
 	ret->count = 0;
 	ret->max_name = 0;
@@ -170,8 +158,6 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 		ft_ppt_push_front(path, files, ls, ret);
 	free(files);
 	closedir(dir);
-	if (ls->cmd[2] == 1)
-		printf("%s:\n", path);
 	ft_display(ret, ls);
 	ft_printf("\n");
 	list = *(&(ret->files));
