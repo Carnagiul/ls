@@ -110,7 +110,7 @@ void			ft_display(t_ls_app *data, t_ls *ls)
 {
 	t_ls_ppt		*list;
 
-	list = *(&(ret->files));
+	list = *(&(data->files));
 	while (list)
 	{
 		if (ls->cmd[8] == 1)
