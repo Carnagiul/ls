@@ -379,8 +379,7 @@ void ft_ls(int argc, char **argv)
 	if (ls->dir == NULL)
 		ls->dir = ft_strdup(".");
 	//ft_create_file_ls(ft_strdup(ls->dir), ls, 0);
-	app = ft_malloc(sizeof(*app));
-	ft_readdir(ls->dir, ls, app);
+	app = ft_readdir(ls->dir, ls);
 	//if (ls->dir)
 	//	free(ls->dir);
 	//free(ls);
