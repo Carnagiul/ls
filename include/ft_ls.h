@@ -66,6 +66,6 @@ char					*ft_joinpath(char *s1, char *s2);
 char					*ft_get_file_user(struct stat stat);
 char					*ft_get_file_group(struct stat stat);
 
-void					ft_readdir(char *path, t_ls *ls, t_ls_app *ret);
+t_ls_app 				*ft_readdir(char *path, t_ls *ls);
 
 #endif

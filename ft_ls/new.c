@@ -134,7 +134,7 @@ void			ft_display(t_ls_app *data, t_ls *ls)
 }
 
 
-void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
+t_ls_app 			*ft_readdir(char *path, t_ls *ls)
 {
 	t_ls_app		*old_ret;
 	t_ls_ppt		*mem;
@@ -142,12 +142,14 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 	t_ls_ppt		*old;
 	t_dir			*files;
 	DIR				*dir;
+	t_ls_app 		*ret;
 
 	if (ls->cmd[2] == 1)
 		printf("%s:\n", path);
 	dir = opendir(path);
 	if (!dir)
 		return ((void)printf("Cannot open the directory\n"));
+	ret = ft_malloc(sizeof(*ret));
 	ret->files = NULL;
 	ret->count = 0;
 	ret->max_name = 0;
@@ -172,18 +174,13 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 					old_ret = old_ret->next;
 				old_ret->next = ft_malloc(sizeof(*ret));
 				printf("\n");
-				ft_readdir(ft_joinpath(path, list->name), ls, old_ret->next);
-			}/*
-			else
-			{
-				printf("\n");
-				ret->next = ft_malloc(sizeof(*ret));
-				ft_readdir(ft_joinpath(path, list->name), ls, ret->next);
-			}*/
+				old_ret->next = ft_readdir(ft_joinpath(path, list->name), ls);
+			}
 		}
 		list = list->next;
 	}
 	free(path);
+	return (ret);
 }
 
 
