@@ -24,7 +24,7 @@ char				*ft_display_file_chmod(struct stat stat)
 	return (ret);
 }
 
-char				*ft_get_file_user(struct stat)
+char				*ft_get_file_user(struct stat stat)
 {
 	char			*ret;
 	t_pswd			*pswd;
@@ -37,7 +37,7 @@ char				*ft_get_file_user(struct stat)
 	return (ret);
 }
 
-char				*ft_get_file_group(struct stat)
+char				*ft_get_file_group(struct stat stat)
 {
 	char			*ret;
 	t_group			*grp;
