@@ -146,8 +146,8 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 	{
 		if (list->type == 4 && ls->cmd[2] == 1)
 		{
-			old_ret = *(&ret);
-			if (old_ret)
+			old_ret = ret;
+			{if (old_ret)
 			{
 				while (old_ret->next != NULL)
 					old_ret = old_ret->next;
@@ -155,7 +155,6 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 				ft_readdir(ft_joinpath(path, list->name), ls, old_ret->next);
 			}
 			else
-			{
 				ret->next = ft_malloc(sizeof(*ret));
 				ft_readdir(ft_joinpath(path, list->name), ls, ret->next);
 			}
