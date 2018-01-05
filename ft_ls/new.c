@@ -95,7 +95,6 @@ void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
 
 void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 {
-	t_ls_app		*ret;
 	t_ls_app		*old_ret;
 	t_ls_ppt		**mem;
 	t_ls_ppt		*list;
