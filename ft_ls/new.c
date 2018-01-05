@@ -93,9 +93,10 @@ void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
 	}
 }
 
-void			ft_readdir(char *path, t_ls *ls)
+void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 {
 	t_ls_app		*ret;
+	t_ls_app		*old_ret;
 	t_ls_ppt		**mem;
 	t_ls_ppt		*list;
 	t_ls_ppt		*old;
@@ -105,10 +106,10 @@ void			ft_readdir(char *path, t_ls *ls)
 	dir = opendir(path);
 	if (!dir)
 		return ;
-	ret = ft_malloc(sizeof(*ret));
 	ret->files = NULL;
 	ret->count = 0;
 	ret->max_name = 0;
+	ret->next = NULL;
 	while ((files = readdir(dir)) != NULL)
 		ft_ppt_push_front(path, files, ls, ret);
 	free(files);
@@ -120,7 +121,7 @@ void			ft_readdir(char *path, t_ls *ls)
 	while (list)
 	{
 		printf("%s\n", list->name);
-		/*if (list->type == 4 && ls->cmd[2] == 1)
+		if (list->type == 4 && ls->cmd[2] == 1)
 		{
 			old = *mem;
 			if (old)
@@ -138,36 +139,29 @@ void			ft_readdir(char *path, t_ls *ls)
 				(*mem)->next = NULL;			
 			}
 		}
-		else*/
+		else
 			list = list->next;
-	}/*
-	list = *mem;
-	while (list)
-	{
-		if (list->type == 4 && ls->cmd[2] == 1)
-			ft_readdir(ft_joinpath(path, list->name), ls);
-		list = list->next;
-	}*/
-	list = *mem;
-	old = NULL;
-	while (list)
-	{
-		if (list->type == 4 && ls->cmd[2] == 1)
-			ft_readdir(ft_joinpath(path, list->name), ls);
-		if (old)
-		{
-			free(old->name);
-			free(old);
-			old = NULL;
-		}
-		old = list;
-		list = list->next;
 	}
-	if (old)
+	list = *mem;
+	while (list)
 	{
-		free(old->name);
-		free(old);
-		old = NULL;
+		if (list->type == 4 && ls->cmd[2] == 1)
+		{
+			old_ret = *(&ret);
+			if (old_ret)
+			{
+				while (old_ret->next != NULL)
+					old_ret = old_ret->next;
+				old_ret->next = ft_malloc(sizeof(*ret));
+				ft_readdir(ft_joinpath(path, list->name), ls, old_ret);
+			}
+			else
+			{
+				ret->next = ft_malloc(sizeof(*ret));
+				ft_readdir(ft_joinpath(path, list->name), ls, ret->next);
+			}
+		}
+		list = list->next;
 	}
 }
 /*

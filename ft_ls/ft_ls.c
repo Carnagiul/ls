@@ -343,7 +343,6 @@ void ft_ls(int argc, char **argv)
 	char	*temp;
 	int		i;
 	t_ls	*ls;
-
 	t_ls_app	*app;
 	t_ls_ppt	*ppt;
 
@@ -380,7 +379,8 @@ void ft_ls(int argc, char **argv)
 	if (ls->dir == NULL)
 		ls->dir = ft_strdup(".");
 	//ft_create_file_ls(ft_strdup(ls->dir), ls, 0);
-	ft_readdir(ls->dir, ls);
+	app = ft_malloc(sizeof(*app));
+	ft_readdir(ls->dir, ls, app);
 	if (ls->dir)
 		free(ls->dir);
 	free(ls);
