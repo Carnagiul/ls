@@ -96,7 +96,7 @@ void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
 void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 {
 	t_ls_app		*old_ret;
-	t_ls_ppt		**mem;
+	t_ls_ppt		*mem;
 	t_ls_ppt		*list;
 	t_ls_ppt		*old;
 	t_dir			*files;
@@ -113,9 +113,8 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 		ft_ppt_push_front(path, files, ls, ret);
 	free(files);
 	closedir(dir);
-	mem = &(ret->files);
-	list = *mem;
-	*mem = NULL;
+	list = *(&(ret->files));
+	mem = NULL;
 	if (ls->cmd[2] == 1)
 		printf("%s:\n", path);
 	while (list)
@@ -123,7 +122,7 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 		printf("%s\n", list->name);
 		if (list->type == 4 && ls->cmd[2] == 1)
 		{
-			old = *mem;
+			old = *(&mem);
 			if (old)
 			{
 				while (old->next != NULL)
@@ -134,15 +133,15 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 			}
 			else
 			{
-				*mem = list;
+				mem = list;
 				list = list->next;
-				(*mem)->next = NULL;			
+				mem->next = NULL;			
 			}
 		}
 		else
 			list = list->next;
 	}
-	list = *mem;
+	list = *(&mem);
 	while (list)
 	{
 		if (list->type == 4 && ls->cmd[2] == 1)
