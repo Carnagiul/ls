@@ -147,8 +147,11 @@ t_ls_app 			*ft_readdir(char *path, t_ls *ls)
 	if (ls->cmd[2] == 1)
 		printf("%s:\n", path);
 	dir = opendir(path);
-	if (!dir)
-		return ((void)printf("Cannot open the directory\n"));
+	if (dir == NULL)
+	{
+		printf("Cannot open the directory\n");
+		return (NULL);
+	}
 	ret = ft_malloc(sizeof(*ret));
 	ret->files = NULL;
 	ret->count = 0;
