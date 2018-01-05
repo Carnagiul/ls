@@ -152,7 +152,7 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 				while (old_ret->next != NULL)
 					old_ret = old_ret->next;
 				old_ret->next = ft_malloc(sizeof(*ret));
-				ft_readdir(ft_joinpath(path, list->name), ls, old_ret);
+				ft_readdir(ft_joinpath(path, list->name), ls, old_ret->next);
 			}
 			else
 			{
