@@ -24,6 +24,32 @@ char				*ft_display_file_chmod(struct stat stat)
 	return (ret);
 }
 
+char				*ft_get_file_user(struct stat)
+{
+	char			*ret;
+	t_pswd			*pswd;
+
+	pswd = getpwuid(stat.st_uid);
+	if (pswd)
+		ret = ft_strdup(pswd->pw_name);
+	else
+		ret = ft_itoa(stat.st_uid);
+	return (ret);
+}
+
+char				*ft_get_file_group(struct stat)
+{
+	char			*ret;
+	t_group			*grp;
+
+	grp = getgrgid(stat.st_gid);
+	if (grp)
+		ret = ft_strdup(grp->gr_name);
+	else
+		ret = ft_itoa(stat.st_gid);
+	return (ret);
+}
+
 char				ft_display_file_type(struct stat stat)
 {
 	if ((stat.st_mode & S_IFMT) == S_IFBLK)

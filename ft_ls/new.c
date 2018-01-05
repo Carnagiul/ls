@@ -10,13 +10,26 @@ t_ls_ppt		*create_ppt(t_dir *file, t_ls *ls, char *path, t_ls_app *app)
 	if (ls->cmd[0] == 0 && file->d_name[0] == '.')
 		return (NULL);
 	ret = ft_malloc(sizeof(*ret));
-	filepath = ft_joinpath(path, file->d_name);
-	lstat(filepath, &(ret->stat));
-	free(filepath);
+	if (ls->cmd[1] || ls->cmd[4])
+	{
+		filepath = ft_joinpath(path, file->d_name);
+		lstat(filepath, &(ret->stat));
+		free(filepath);
+	}
 	if ((len = ft_strlen(file->d_name)) > app->max_name)
 		app->max_name = len;
 	ret->name = ft_strdup(file->d_name);
 	ret->type = file->d_type;
+	if (ls->cmd[1] == 1)
+	{
+		ret->mod = ft_display_file_chmod(ret->stat);
+		ret->pwd = ft_get_file_user(ret->stat);
+		ret->grp = ft_get_file_group(ret->stat);
+		if (ft_strlen(ret->grp) > app->max_grp)
+			app->max_grp = ft_strlen(ret->grp);
+		if (ft_strlen(ret->pwd) > app->max_pwd)
+			app->max_pwd = ft_strlen(ret->pwd);		
+	}
 	ret->next = NULL;
 	app->count++;
 	return (ret);
@@ -93,6 +106,28 @@ void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
 	}
 }
 
+void			ft_display(t_ls_app *data, t_ls *ls)
+{
+	t_ls_ppt		*list;
+
+	list = *(&(ret->files));
+	while (list)
+	{
+		if (ls->cmd[8] == 1)
+			ft_printf("%ld ", list->stat.st_ino);
+		if (ls->cmd[1])
+			ft_printf("%c%s %-*s %-*s ", ft_display_file_type(list->stat), list->mod, data->max_pwd, list->pwd, data->max_grp, list->grp);
+		if (ls->cmd[1] || ls->cmd[6])
+			ft_printf("%s\n", data->name);
+		else if (ls->cmd[5])
+			ft_printf("%-*s ", data->max_name, list->name);
+		else
+			ft_printf("%s\t", list->name);
+		list = list->next;
+	}
+}
+
+
 void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 {
 	t_ls_app		*old_ret;
@@ -108,6 +143,8 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 	ret->files = NULL;
 	ret->count = 0;
 	ret->max_name = 0;
+	ret->max_grp = 0;
+	ret->max_pwd = 0;
 	ret->next = NULL;
 	while ((files = readdir(dir)) != NULL)
 		ft_ppt_push_front(path, files, ls, ret);
@@ -125,7 +162,7 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 	list = *(&(ret->files));
 	while (list)
 	{
-		if (list->type == 4 && ls->cmd[2] == 1)
+		if (list->type == 4 && ls->cmd[2] == 1 && ft_strcmp(list->name, ".") != 0 && ft_strcmp(list->name, "..") != 0)
 		{
 			old_ret = *(&ret);
 			if (old_ret)
@@ -145,36 +182,3 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 	}
 	free(path);
 }
-/*
-typedef struct s_app_ls
-{
-	struct s_ls_files	*files;
-	struct s_app_ls		*dir;
-	struct s_app_ls		*next;
-	int					done;
-}
-
-void		thread(struct s_app_ls	*here)
-{
-	struct s_app_ls		*next;
-	struct s_app_ls		*data;
-
-	while (readfile)
-	{
-		if (ls->cmd[2] == 1 && can_break() == 1)
-		{
-			data = *(&(here->dir));
-			//IF THEN ELSE WHILE
-			data->next = ft_malloc(*here);
-			data->next->done = 1;
-			thread(data->next);
-		}
-	}
-	here->done = 0;
-	//FILE 0 456 999
-	//FILE 1 
-	//FILE 2
-	//FILE 3
-	//FILE 4
-
-}*/

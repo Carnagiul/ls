@@ -41,6 +41,9 @@ typedef struct		s_ls_ppt
 	char			*name;
 	int				type;
 	struct  stat	stat;
+	char			*pwd;
+	char			*grp;
+	char			*mod;
 	struct s_ls_ppt	*next;
 }					t_ls_ppt;
 
@@ -49,6 +52,8 @@ typedef struct		s_ls_app
 	struct s_ls_ppt	*files;
 	int				count;
 	int				max_name;
+	int				max_grp;
+	int				max_pwd;
 	struct s_ls_app	*next;
 }					t_ls_app;
 
@@ -58,6 +63,8 @@ char					*ft_display_file_chmod(struct stat stat);
 char					ft_display_file_type(struct stat stat);
 void					ft_display_timefile(time_t timestamp);
 char					*ft_joinpath(char *s1, char *s2);
+char					*ft_get_file_user(struct stat);
+char					*ft_get_file_group(struct stat);
 
 void					ft_readdir(char *path, t_ls *ls, t_ls_app *ret);
 
