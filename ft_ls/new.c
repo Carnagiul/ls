@@ -162,6 +162,7 @@ void			ft_readdir(char *path, t_ls *ls, t_ls_app *ret)
 		}
 		list = list->next;
 	}
+	free(path);
 }
 /*
 typedef struct s_app_ls
