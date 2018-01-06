@@ -54,6 +54,8 @@ typedef struct		s_ls_app
 	int				max_name;
 	int				max_grp;
 	int				max_pwd;
+	int				max_size;
+	int				pow_size;
 	struct s_ls_app	*next;
 }					t_ls_app;
 

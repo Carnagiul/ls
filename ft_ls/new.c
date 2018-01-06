@@ -23,13 +23,16 @@ t_ls_ppt		*create_ppt(t_dir *file, t_ls *ls, char *path, t_ls_app *app)
 	ret->type = file->d_type;
 	if (ls->cmd[1] == 1)
 	{
+		if (ft_pow(ret->stat.st_size) > app->pow_size)
+			app->pow_size = ft_pow(ret->stat.st_size);
 		ret->mod = ft_display_file_chmod(ret->stat);
 		ret->pwd = ft_get_file_user(ret->stat);
 		ret->grp = ft_get_file_group(ret->stat);
 		if (ft_strlen(ret->grp) > app->max_grp)
 			app->max_grp = ft_strlen(ret->grp);
 		if (ft_strlen(ret->pwd) > app->max_pwd)
-			app->max_pwd = ft_strlen(ret->pwd);		
+			app->max_pwd = ft_strlen(ret->pwd);
+		app->max_size += ret->stat.st_blocks;	
 	}
 	ret->next = NULL;
 	app->count++;
@@ -122,6 +125,7 @@ void			ft_display(t_ls_app *data, t_ls *ls)
 			printf("%s ", list->mod);
 			printf("USER=%-*s ", data->max_pwd, list->pwd);
 			printf("GROP=%-*s ", data->max_grp, list->grp);
+			printf("SIZE=%-*d ", data->pow_size, list->stat.st_size);
 		}
 		if (ls->cmd[1] || ls->cmd[6])
 			printf("%s\n", list->name);
@@ -132,7 +136,6 @@ void			ft_display(t_ls_app *data, t_ls *ls)
 		list = list->next;
 	}
 }
-
 
 t_ls_app 			*ft_readdir(char *path, t_ls *ls)
 {
@@ -159,6 +162,8 @@ t_ls_app 			*ft_readdir(char *path, t_ls *ls)
 	ret->max_name = 0;
 	ret->max_grp = 0;
 	ret->max_pwd = 0;
+	app->max_size = 0;
+	app->pow_size = 0;
 	ret->next = NULL;
 	while ((files = readdir(dir)) != NULL)
 		ft_ppt_push_front(path, files, ls, ret);
