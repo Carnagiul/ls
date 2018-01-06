@@ -162,8 +162,8 @@ t_ls_app 			*ft_readdir(char *path, t_ls *ls)
 	ret->max_name = 0;
 	ret->max_grp = 0;
 	ret->max_pwd = 0;
-	app->max_size = 0;
-	app->pow_size = 0;
+	ret->max_size = 0;
+	ret->pow_size = 0;
 	ret->next = NULL;
 	while ((files = readdir(dir)) != NULL)
 		ft_ppt_push_front(path, files, ls, ret);
