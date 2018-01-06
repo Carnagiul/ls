@@ -125,7 +125,7 @@ void			ft_display(t_ls_app *data, t_ls *ls)
 			printf("%s ", list->mod);
 			printf("USER=%-*s ", data->max_pwd, list->pwd);
 			printf("GROP=%-*s ", data->max_grp, list->grp);
-			printf("SIZE=%-*d ", data->pow_size, list->stat.st_size);
+			printf("SIZE=%-*lld ", data->pow_size, list->stat.st_size);
 		}
 		if (ls->cmd[1] || ls->cmd[6])
 			printf("%s\n", list->name);
