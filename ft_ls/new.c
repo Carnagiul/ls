@@ -110,6 +110,19 @@ void		ft_ppt_push_front(char *path, t_dir *file, t_ls *ls, t_ls_app *app)
 	}
 }
 
+void				kkkft_display_timefile(time_t timestamp)
+{
+	time_t			t;
+	char			*dt;
+
+	dt = ctime(&timestamp);
+	t = time(NULL);
+	if (t - timestamp <= 15811200)
+		printf("%2.2s %3.3s %5.5s ", &(dt[8]), &(dt[4]), &(dt[11]));
+	else
+		printf("%2.2s %3.3s %5.4s ", &(dt[8]), &(dt[4]), &(dt[20]));
+}
+
 void			ft_display(t_ls_app *data, t_ls *ls)
 {
 	t_ls_ppt		*list;
@@ -126,7 +139,7 @@ void			ft_display(t_ls_app *data, t_ls *ls)
 			printf("USER=%-*s ", data->max_pwd, list->pwd);
 			printf("GROP=%-*s ", data->max_grp, list->grp);
 			printf("SIZE=%*lld ", data->pow_size, list->stat.st_size);
-			ft_display_timefile(list->stat.st_mtime);
+			kkkft_display_timefile(list->stat.st_mtime);
 		}
 		if (ls->cmd[1] || ls->cmd[6])
 			printf("%s\n", list->name);
