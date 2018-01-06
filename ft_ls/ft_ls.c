@@ -379,5 +379,4 @@ void ft_ls(int argc, char **argv)
 	if (ls->dir == NULL)
 		ls->dir = ft_strdup(".");
 	app = ft_readdir(ls->dir, ls);
-	return (0);
 }
