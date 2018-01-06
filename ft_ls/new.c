@@ -126,6 +126,7 @@ void			ft_display(t_ls_app *data, t_ls *ls)
 			printf("USER=%-*s ", data->max_pwd, list->pwd);
 			printf("GROP=%-*s ", data->max_grp, list->grp);
 			printf("SIZE=%*lld ", data->pow_size, list->stat.st_size);
+			ft_display_timefile(data->stat.st_mtime);
 		}
 		if (ls->cmd[1] || ls->cmd[6])
 			printf("%s\n", list->name);
