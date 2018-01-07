@@ -44,6 +44,7 @@ typedef struct		s_ls_ppt
 	char			*pwd;
 	char			*grp;
 	char			*mod;
+	char			*filepath;
 	struct s_ls_ppt	*next;
 }					t_ls_ppt;
 

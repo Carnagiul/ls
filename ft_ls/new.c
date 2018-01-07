@@ -4,7 +4,6 @@
 t_ls_ppt		*create_ppt(t_dir *file, t_ls *ls, char *path, t_ls_app *app)
 {
 	t_ls_ppt	*ret;
-	char		*filepath;
 	int			len;
 
 	len = 0;
@@ -13,9 +12,8 @@ t_ls_ppt		*create_ppt(t_dir *file, t_ls *ls, char *path, t_ls_app *app)
 	ret = ft_malloc(sizeof(*ret));
 	if (ls->cmd[1] || ls->cmd[4])
 	{
-		filepath = ft_joinpath(path, file->d_name);
-		lstat(filepath, &(ret->stat));
-		free(filepath);
+		ret->filepath = ft_joinpath(path, file->d_name);
+		lstat(ret->filepath, &(ret->stat));
 	}
 	if ((len = ft_strlen(file->d_name)) > app->max_name)
 		app->max_name = len;
@@ -32,7 +30,7 @@ t_ls_ppt		*create_ppt(t_dir *file, t_ls *ls, char *path, t_ls_app *app)
 			app->max_grp = ft_strlen(ret->grp);
 		if (ft_strlen(ret->pwd) > app->max_pwd)
 			app->max_pwd = ft_strlen(ret->pwd);
-		app->max_size += ret->stat.st_blocks;	
+		app->max_size += ret->stat.st_blocks;
 	}
 	ret->next = NULL;
 	app->count++;
@@ -126,6 +124,8 @@ void				kkkft_display_timefile(time_t timestamp)
 void			ft_display(t_ls_app *data, t_ls *ls)
 {
 	t_ls_ppt		*list;
+	char			buf[256];
+	int				len;
 
 	list = *(&(data->files));
 	while (list)
@@ -142,7 +142,16 @@ void			ft_display(t_ls_app *data, t_ls *ls)
 			kkkft_display_timefile(list->stat.st_mtime);
 		}
 		if (ls->cmd[1] || ls->cmd[6])
-			printf("%s\n", list->name);
+		{
+			if (ft_display_file_type(list->stat) == 'l')
+			{
+				len = (int)readlink(list->filepath, buf, sizeof(buf));
+				buf[len] = '\0';
+				printf("%s -> %s\n", list->name, buf);
+			}
+			else
+				printf("%s\n", list->name);
+		}
 		else if (ls->cmd[5])
 			printf("%-*s ", data->max_name, list->name);
 		else
@@ -186,9 +195,11 @@ t_ls_app 			*ft_readdir(char *path, t_ls *ls)
 	ft_display(ret, ls);
 	printf("\n");
 	list = *(&(ret->files));
-	while (list)
+	while (list && ls->cmd[2] == 1)
 	{
-		if (list->type == 4 && ls->cmd[2] == 1 && ft_strcmp(list->name, ".") != 0 && ft_strcmp(list->name, "..") != 0)
+		if (list->type == 4 &&
+					ft_strcmp(list->name, ".") != 0 &&
+					ft_strcmp(list->name, "..") != 0)
 		{
 			old_ret = *(&ret);
 			if (old_ret)
@@ -204,5 +215,3 @@ t_ls_app 			*ft_readdir(char *path, t_ls *ls)
 	free(path);
 	return (ret);
 }
-
-

@@ -338,7 +338,7 @@ void	addCmd(char *cmd, t_ls *ls)
 	}
 }
 
-void ft_ls(int argc, char **argv)
+void	ft_ls(int argc, char **argv)
 {
 	char	*temp;
 	int		i;
@@ -379,4 +379,6 @@ void ft_ls(int argc, char **argv)
 	if (ls->dir == NULL)
 		ls->dir = ft_strdup(".");
 	app = ft_readdir(ls->dir, ls);
+	while (1)
+		;
 }
