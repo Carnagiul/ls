@@ -56,7 +56,7 @@ t_obj_param_ls_file *ft_file_exist_obj(char *filename, t_obj_param_ls_file *old)
 					old->last->next = file;
 				if (old->next == NULL)
 					old->next = file;
-				old->last = file;				
+				old->last = file;
 			}
 			else
 			{
@@ -141,23 +141,32 @@ int main(int argc, char **argv)
 		{
 			if (argv[i][j] == '-' && j == 0)
 			{
-				while (j < len)
+				if (ft_file_exist_int(argv[i]))
 				{
-					if (argv[i][j] == 'a')
-						params->ls->a = 1;
-					else if (argv[i][j] == 't')
-						params->ls->t = 1;
-					else if (argv[i][j] == 'l')
-						params->ls->l = 1;
-					else if (argv[i][j] == 'r')
-						params->ls->r = 1;
-					else if (argv[i][j] == 'R')
-						params->ls->rr = 1;
-					else if (argv[i][j] == '-')
-						;
-					else
-						printf("Le parametre %c dans l'argument %s n'es pas correct ou n'existe pas.\n", argv[i][j], argv[i]);
-					j++;
+					params->path = ft_file_exist_obj(argv[i], params->path);
+					j = len;
+					printf("l'argument %s n'es pas correct ou n'existe pas, on suppose qu'il s'agit d'un path ou d'un fichier.\n", argv[i]);
+				}
+				else
+				{
+					while (j < len)
+					{
+						if (argv[i][j] == 'a')
+							params->ls->a = 1;
+						else if (argv[i][j] == 't')
+							params->ls->t = 1;
+						else if (argv[i][j] == 'l')
+							params->ls->l = 1;
+						else if (argv[i][j] == 'r')
+							params->ls->r = 1;
+						else if (argv[i][j] == 'R')
+							params->ls->rr = 1;
+						else if (argv[i][j] == '-')
+							;
+						else
+							printf("Le parametre %c dans l'argument %s n'es pas correct ou n'existe pas.\n", argv[i][j], argv[i]);
+						j++;
+					}
 				}
 			}
 			else
